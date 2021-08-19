@@ -708,6 +708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0, z: 0}
-  _delay: 0.1
-  _tolerance: 0.2
+  _delay: 0.05
+  _tolerance: 0.1
+  _randomFactor: 0.2
   _beeBodyT: {fileID: 393168350045545078}

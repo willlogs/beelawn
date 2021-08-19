@@ -34,12 +34,13 @@ namespace PT.Bee
             }
         }
 
-        [SerializeField] private float _delay = 0.2f, _tolerance = 0.2f;
+        [SerializeField] private float _delay = 0.2f, _tolerance = 0.2f, _randomFactor = 0.2f;
         [SerializeField] private Transform _beeBodyT;
         private Bee _parent;
         private BeeChain _chain;
         private bool _hasParent, _hasChain, _follow, _outtafollow;
         private Tweener _randomTweener;
+        private Vector3 _randomDir;
 
         private void OnFollowChnaged()
         {
@@ -62,9 +63,12 @@ namespace PT.Bee
                     Random.Range(-1f, 1f),
                     Random.Range(-1f, 1f)
                 ).normalized;
+
+                _randomDir = (1 - _randomFactor) * _randomDir + _randomFactor * random;
+
                 _beeBodyT.position = Vector3.Lerp(
                     _beeBodyT.position,
-                    _beeBodyT.position + random,
+                    _beeBodyT.position + _randomDir,
                     Time.deltaTime
                 );
 
@@ -82,7 +86,7 @@ namespace PT.Bee
                     !_outtafollow &&
                     (
                         !_hasParent ||
-                        (transform.position - _parent.position).magnitude <= _tolerance
+                        (transform.position - _chain.center).magnitude <= _tolerance
                     )
                 )
                 {

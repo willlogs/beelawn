@@ -34,12 +34,14 @@ namespace PT.Bees
             }
         }
 
-        [SerializeField] private float _delay = 0.2f, _tolerance = 0.2f;
+        [SerializeField] private float _delay = 0.2f, _tolerance = 0.2f, _randomFactor = 0.2f;
+        [SerializeField] private float _dumbShit = 0;
         [SerializeField] private Transform _beeBodyT;
         private Bee _parent;
         private BeeChain _chain;
         private bool _hasParent, _hasChain, _follow, _outtafollow;
         private Tweener _randomTweener;
+        private Vector3 _randomDir;
 
         private void OnFollowChnaged()
         {
@@ -57,15 +59,22 @@ namespace PT.Bees
         {
             if (_follow)
             {
-                Vector3 random = new Vector3(
+                Vector3 randomdir = new Vector3(
                     Random.Range(-1f, 1f),
                     Random.Range(-1f, 1f),
                     Random.Range(-1f, 1f)
                 ).normalized;
+
+                _randomDir = (1f - _randomFactor) * _randomDir + _randomFactor * randomdir;
+
+                float diffMagnitude = Mathf.Clamp01(
+                    (transform.position - _parent.position).magnitude / 2
+                );
+
                 _beeBodyT.position = Vector3.Lerp(
                     _beeBodyT.position,
-                    _beeBodyT.position + random,
-                    Time.deltaTime
+                    _beeBodyT.position + _randomDir,
+                    Time.deltaTime * diffMagnitude
                 );
 
                 if (_hasParent)
