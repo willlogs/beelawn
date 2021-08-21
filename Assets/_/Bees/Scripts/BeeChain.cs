@@ -46,6 +46,9 @@ namespace PT.Bee
 
                     isActive = true;
 
+                    diff.z = diff.y;
+                    diff.y = 0;
+
                     if (_bees.Length > 0)
                     {
                         _bees[0].transform.position = Vector3.Lerp(
