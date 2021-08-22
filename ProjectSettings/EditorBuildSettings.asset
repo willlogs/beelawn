@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_/Garden/Scenes/Test/test 1.unity
-    guid: efae76b296b57fe4ea7876641af9248b
+    path: Assets/_/Garden/Scenes/Test/GrassShader.unity
+    guid: 0cae7275f34ba15429903ed257e3c100
   m_configObjects: {}
