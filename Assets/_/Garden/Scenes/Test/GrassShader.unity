@@ -201,13 +201,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630724375}
-  m_LocalRotation: {x: 0.48909652, y: -0, z: -0, w: 0.87222964}
-  m_LocalPosition: {x: 0, y: 7.11, z: -4.91}
+  m_LocalRotation: {x: 0.34749228, y: -0, z: -0, w: 0.93768287}
+  m_LocalPosition: {x: 0, y: 6.08, z: -6.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 58.562, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40.668, y: 0, z: 0}
 --- !u!114 &630724379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1532b32c9929ea141974a1e47a80bb2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastPoint: {x: 0, y: 0, z: 0}
   brush:
     brushTexture: {fileID: 2800000, guid: 1e48ea491c647834491786c93015b497, type: 3}
     brushNormalTexture: {fileID: 0}
@@ -245,7 +246,7 @@ MonoBehaviour:
     colorBlendType: 1
     normalBlendType: 0
     heightBlendType: 0
-  useMethodType: 0
+  useMethodType: 1
   erase: 0
 --- !u!1 &997004174
 GameObject:

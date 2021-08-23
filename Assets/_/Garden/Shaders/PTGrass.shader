@@ -5,6 +5,8 @@ Shader "PT/PTGrass"
         _MainTex("Main Texture", 2D) = "white" {}
         _GrassTex("Grass Texture", 2D) = "white" {}
         _NoGrassTex("No Grass Texture", 2D) = "white" {}
+        _WindTex("Wind Texture", 2D) = "white" {}
+
         _TopColor("Grass Top Color", Color) = (.25, .5, .5, 1)
         _BottomColor("Grass Bottom Color", Color) = (.25, .5, .5, 1)
         _BendRotationRandom("Bend Rotation Random", Range(0, 1)) = 0.2
@@ -14,6 +16,8 @@ Shader "PT/PTGrass"
         _BladeHeight("Blade Height", Float) = 0.5
         _BladeHeightRandom("Blade Height Random", Float) = 0.3
         _TessellationUniform("Tessellation Uniform", Range(1, 64)) = 1
+        _WindSource("Wind Source", Vector) = (0, 0, 0, 0)
+        _WindRange("WindRange", Float) = 2.0
     }
     SubShader
     {
@@ -76,6 +80,9 @@ Shader "PT/PTGrass"
 
             sampler2D _NoGrassTex;
             float4 _NoGrassTex_ST;
+
+            sampler2D _WindTex;
+            float4 _WindTex_ST;
             
             #include "CustomTessellation.cginc"
 
@@ -99,6 +106,9 @@ Shader "PT/PTGrass"
             float _BladeHeightRandom;	
             float _BladeWidth;
             float _BladeWidthRandom;
+
+            float4 _WindSource;
+            float _WindRange;
 
             vertexOutput makevertex(float3 pos, float2 cuv, float2 uv){
                 vertexOutput o;
@@ -140,25 +150,46 @@ Shader "PT/PTGrass"
                 float3 vNormal = IN[0].normal;
                 float4 vTangent = IN[0].tangent;
                 float3 vBinormal = cross(vNormal, vTangent) * vTangent.w;
-                
-                float3x3 tangentToLocal = float3x3(
-                vTangent.x, vBinormal.x, vNormal.x,
-                vTangent.y, vBinormal.y, vNormal.y,
-                vTangent.z, vBinormal.z, vNormal.z
-                );
+                float3 alpha = 1 - tex2Dlod(_NoGrassTex, float4(IN[0].uv, 0, 0));
 
-                float3x3 bendRotationMatrix = AngleAxis3x3(rand(pos.zzx) * _BendRotationRandom * sin(_Time[0] * _RotationMultiplier) * UNITY_PI * 0.5, float3(-1, 0, 0));
-                float3x3 facingRotationMatrix = AngleAxis3x3(rand(pos) * UNITY_TWO_PI, float3(0, 0, 1));
-                float3x3 transformationMatrix = mul(mul(tangentToLocal, facingRotationMatrix), bendRotationMatrix);
+                // float3 diff = mul(unity_ObjectToWorld, float4(pos, 1)).xyz - _WindSource;
+                // float difflen = length(diff);
+                // float3x3 windRotationMatrix = AngleAxis3x3(difflen / _WindRange * UNITY_TWO_PI * 0.5, float3(-1, 0, 0));
 
-                float height = (rand(pos.zyx) * 2 - 1) * _BladeHeightRandom + _BladeHeight;
-                float width = (rand(pos.xzy) * 2 - 1) * _BladeWidthRandom + _BladeWidth;
-                
-                triStream.Append(makevertex(pos + mul(transformationMatrix, float3(width, 0, 0)), float2(1, 0), IN[0].uv));
-                triStream.Append(makevertex(pos + mul(transformationMatrix, float3(-width, 0, 0)), float2(0, 0), IN[0].uv));
-                triStream.Append(makevertex(pos + mul(transformationMatrix, float3(0, 0, height)), float2(0.5, 1), IN[0].uv));
+                if(alpha.x > 0.5){
+                    float3x3 tangentToLocal = float3x3(
+                    vTangent.x, vBinormal.x, vNormal.x,
+                    vTangent.y, vBinormal.y, vNormal.y,
+                    vTangent.z, vBinormal.z, vNormal.z
+                    );
 
-                triStream.RestartStrip();
+                    float3x3 bendRotationMatrix = AngleAxis3x3(
+                    rand(pos.zzx) * _BendRotationRandom * sin(_Time[0] * _RotationMultiplier) * UNITY_PI * 0.5,
+                    float3(-1, 0, 0)
+                    );
+                    float3x3 facingRotationMatrix = AngleAxis3x3(rand(pos) * UNITY_TWO_PI, float3(0, 0, 1));
+
+                    float3x3 transformationMatrix = mul(mul(tangentToLocal, facingRotationMatrix), bendRotationMatrix);
+
+                    // if(difflen < _WindRange){
+                    //     transformationMatrix = mul(transformationMatrix, windRotationMatrix);
+                    // }
+
+                    float height = (rand(pos.zyx) * 2 - 1) * _BladeHeightRandom + _BladeHeight;
+                    float width = (rand(pos.xzy) * 2 - 1) * _BladeWidthRandom + _BladeWidth;
+                    
+                    triStream.Append(
+                        makevertex(
+                            pos + mul(transformationMatrix, float3(width, 0, 0)),
+                            float2(1, 0),
+                            IN[0].uv
+                        )
+                    );
+                    triStream.Append(makevertex(pos + mul(transformationMatrix, float3(-width, 0, 0)), float2(0, 0), IN[0].uv));
+                    triStream.Append(makevertex(pos + mul(transformationMatrix, float3(0, 0, height)), float2(0.5, 1), IN[0].uv));
+
+                    triStream.RestartStrip();
+                }
             }
             
             fixed4 frag (vertexOutput i) : SV_Target
@@ -167,8 +198,6 @@ Shader "PT/PTGrass"
                 //fixed4 col = tex2D(_MainTex, i.uv);
 
                 fixed4 col = tex2D(_GrassTex, i.uv);
-                fixed4 alpha = 1 - tex2D(_NoGrassTex, i.uv);
-                col.a = alpha.x;
                 // apply fog
                 // UNITY_APPLY_FOG(i.fogCoord, col);
                 col *= lerp(_BottomColor, _TopColor, i.cuv.y);

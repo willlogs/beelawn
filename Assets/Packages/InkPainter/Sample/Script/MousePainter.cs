@@ -4,6 +4,8 @@ namespace Es.InkPainter.Sample
 {
 	public class MousePainter : MonoBehaviour
 	{
+		public Vector3 lastPoint;
+
 		/// <summary>
 		/// Types of methods used to paint.
 		/// </summary>
@@ -36,6 +38,8 @@ namespace Es.InkPainter.Sample
 				{
 					var paintObject = hitInfo.transform.GetComponent<InkCanvas>();
 					if(paintObject != null)
+					{
+						lastPoint = hitInfo.point;
 						switch(useMethodType)
 						{
 							case UseMethodType.RaycastHitInfo:
@@ -56,6 +60,7 @@ namespace Es.InkPainter.Sample
 								success = erase ? paintObject.EraseUVDirect(brush, hitInfo.textureCoord) : paintObject.PaintUVDirect(brush, hitInfo.textureCoord);
 								break;
 						}
+					}
 					if(!success)
 						Debug.LogError("Failed to paint.");
 				}

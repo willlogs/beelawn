@@ -30,6 +30,7 @@ vertexInput vert(vertexInput v)
 	vertexInput o;
 	o.vertex = v.vertex;
 	o.uv = TRANSFORM_TEX(v.uv, _GrassTex);
+
 	o.cuv = v.cuv;
 	o.normal = v.normal;
 	o.tangent = v.tangent;

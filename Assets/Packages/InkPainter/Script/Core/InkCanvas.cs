@@ -35,6 +35,8 @@ namespace Es.InkPainter
 			[SerializeField, Tooltip("The property name of the main texture.")]
 			public string mainTextureName = "_MainTex";
 
+			public string windTextureName = "_WindTex";
+
 			[SerializeField, Tooltip("Normal map texture property name.")]
 			public string normalTextureName = "_BumpMap";
 
@@ -56,6 +58,8 @@ namespace Es.InkPainter
 			[HideInInspector]
 			[NonSerialized]
 			public Texture mainTexture;
+
+			public Texture windTexture;
 
 			/// <summary>
 			/// Copied the main texture to rendertexture that use to paint.
@@ -97,6 +101,8 @@ namespace Es.InkPainter
 			[HideInInspector]
 			[NonSerialized]
 			public int mainTexturePropertyID;
+
+			public int windTexturePropertyID;
 
 			[HideInInspector]
 			[NonSerialized]

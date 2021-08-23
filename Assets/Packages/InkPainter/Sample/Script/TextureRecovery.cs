@@ -50,7 +50,7 @@ namespace Es.InkPainter.Sample
 				return;
 
 			if(defaultMainTexture != null && paintMainTexture != null)
-				TextureMorphing.Lerp(defaultMainTexture, paintMainTexture, lerpCoefficient);
+				TextureMorphing.Lerp(defaultMainTexture, paintMainTexture, lerpCoefficient * Time.fixedDeltaTime);
 			if(defaultNormalMap != null && paintNormalMap != null)
 				TextureMorphing.Lerp(defaultNormalMap, paintNormalMap, lerpCoefficient);
 			if(defaultHeightMap != null && paintHeightMap != null)
