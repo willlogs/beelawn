@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-namespace PT.Bee
+namespace PT.Bees
 {
     public class Bee : MonoBehaviour
     {
@@ -58,6 +58,7 @@ namespace PT.Bee
         {
             if (_follow)
             {
+                // --------------------- doing a random local move --------------------- //
                 Vector3 random = new Vector3(
                     Random.Range(-1f, 1f),
                     Random.Range(-1f, 1f),
@@ -71,9 +72,17 @@ namespace PT.Bee
                     _beeBodyT.position + _randomDir,
                     Time.deltaTime
                 );
+                // --------------------- doing a random local move --------------------- //
 
+                // --------------------- follow the parent --------------------- //
                 if (_hasParent)
                 {
+                    transform.forward = Vector3.Lerp(
+                        transform.forward,
+                        (_parent.position - transform.position).normalized,
+                        Time.deltaTime * 10
+                    );
+
                     transform.position = Vector3.Lerp(
                         transform.position,
                         _parent.position,
@@ -93,22 +102,28 @@ namespace PT.Bee
                     _follow = _outtafollow;
                     OnFollowChnaged();
                 }
+                // --------------------- follow the parent --------------------- //
             }
         }
 
         private void DoRandomMovement()
         {
-            _beeBodyT.transform.DOLocalMove(Vector3.zero, 0.1f);
-
-            if (!_follow && _hasChain)
+            if (_hasParent)
             {
-                Vector3 newPos = new Vector3(
-                    Random.Range(-_chain.radius, _chain.radius),
-                    Random.Range(-_chain.radius, _chain.radius),
-                    Random.Range(-_chain.radius, _chain.radius)
-                ) + _chain.center;
+                _beeBodyT.transform.DOLocalMove(Vector3.zero, 0.1f);
 
-                transform.DOMove(newPos, Random.Range(0.1f, 0.8f)).OnComplete(DoRandomMovement);
+                if (!_follow && _hasChain)
+                {
+                    Vector3 newPos = new Vector3(
+                        Random.Range(-_chain.radius, _chain.radius),
+                        Random.Range(-_chain.radius, _chain.radius),
+                        Random.Range(-_chain.radius, _chain.radius)
+                    ) + _chain.center;
+
+                    Vector3 direction = newPos - transform.position;
+                    transform.forward = direction.normalized;
+                    transform.DOMove(newPos, Random.Range(0.1f, 0.8f)).OnComplete(DoRandomMovement);
+                }
             }
         }
 

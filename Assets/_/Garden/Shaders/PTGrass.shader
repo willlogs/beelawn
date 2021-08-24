@@ -151,10 +151,8 @@ Shader "PT/PTGrass"
                 float4 vTangent = IN[0].tangent;
                 float3 vBinormal = cross(vNormal, vTangent) * vTangent.w;
                 float3 alpha = 1 - tex2Dlod(_NoGrassTex, float4(IN[0].uv, 0, 0));
-
-                // float3 diff = mul(unity_ObjectToWorld, float4(pos, 1)).xyz - _WindSource;
-                // float difflen = length(diff);
-                // float3x3 windRotationMatrix = AngleAxis3x3(difflen / _WindRange * UNITY_TWO_PI * 0.5, float3(-1, 0, 0));
+                
+                float wind = tex2Dlod(_WindTex, float4(IN[0].uv, 0, 0)) / 2;
 
                 if(alpha.x > 0.5){
                     float3x3 tangentToLocal = float3x3(
@@ -169,11 +167,9 @@ Shader "PT/PTGrass"
                     );
                     float3x3 facingRotationMatrix = AngleAxis3x3(rand(pos) * UNITY_TWO_PI, float3(0, 0, 1));
 
-                    float3x3 transformationMatrix = mul(mul(tangentToLocal, facingRotationMatrix), bendRotationMatrix);
-
-                    // if(difflen < _WindRange){
-                    //     transformationMatrix = mul(transformationMatrix, windRotationMatrix);
-                    // }
+                    float3x3 transformationMatrix = tangentToLocal;
+                    transformationMatrix = mul(transformationMatrix, facingRotationMatrix);
+                    transformationMatrix = mul(transformationMatrix, bendRotationMatrix);
 
                     float height = (rand(pos.zyx) * 2 - 1) * _BladeHeightRandom + _BladeHeight;
                     float width = (rand(pos.xzy) * 2 - 1) * _BladeWidthRandom + _BladeWidth;
@@ -186,7 +182,7 @@ Shader "PT/PTGrass"
                         )
                     );
                     triStream.Append(makevertex(pos + mul(transformationMatrix, float3(-width, 0, 0)), float2(0, 0), IN[0].uv));
-                    triStream.Append(makevertex(pos + mul(transformationMatrix, float3(0, 0, height)), float2(0.5, 1), IN[0].uv));
+                    triStream.Append(makevertex(pos + mul(transformationMatrix, float3(0, 0, height * (1 - wind))), float2(0.5, 1), IN[0].uv));
 
                     triStream.RestartStrip();
                 }

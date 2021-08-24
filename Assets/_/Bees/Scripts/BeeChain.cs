@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PT.Bee
+namespace PT.Bees
 {
     public class BeeChain : MonoBehaviour
     {
@@ -51,6 +51,12 @@ namespace PT.Bee
 
                     if (_bees.Length > 0)
                     {
+                        _bees[0].transform.forward = Vector3.Lerp(
+                            _bees[0].transform.forward,
+                            diff.normalized,
+                            Time.deltaTime * 10
+                        );
+
                         _bees[0].transform.position = Vector3.Lerp(
                             _bees[0].transform.position,
                             diff * speed + _bees[0].transform.position,

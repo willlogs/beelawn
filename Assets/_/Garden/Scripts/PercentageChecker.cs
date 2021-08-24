@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 namespace PT.Garden{
@@ -15,7 +16,7 @@ namespace PT.Garden{
         private int _txid;
         private Material _mainMaterial;
         private Texture _texture;
-        private bool _isChecking = true;
+        private bool _isChecking = true, _checkSig = false;
 
         private void Start(){
             _mainMaterial = _meshRenderer.materials[_matIndex];
@@ -29,31 +30,42 @@ namespace PT.Garden{
                 yield return new WaitForSeconds(_betweenReads);
 
                 try{
-                    RenderTexture t = (RenderTexture)_texture;
-                    _texture = _mainMaterial.GetTexture(_txid);
-                    Texture2D t2d = new Texture2D(_texture.width, _texture.height, TextureFormat.RGBA32, false);
+                    if(!_checkSig){
+                        RenderTexture t = (RenderTexture)_texture;
+                        _texture = _mainMaterial.GetTexture(_txid);
+                        Texture2D t2d = new Texture2D(_texture.width, _texture.height, TextureFormat.RGBA32, false);
 
-                    RenderTexture currentRT = RenderTexture.active;
+                        RenderTexture currentRT = RenderTexture.active;
+                        RenderTexture.active = t;
+                        t2d.ReadPixels(new Rect(0, 0, t.width, t.height), 0, 0);
+                        t2d.Apply();
+                        RenderTexture.active = currentRT;
 
-                    RenderTexture.active = t;
-                    t2d.ReadPixels(new Rect(0, 0, t.width, t.height), 0, 0);
-                    t2d.Apply();
-
-                    RenderTexture.active = currentRT;
-                    
-                    float diff = 0;
-                    for(int x = 0; x < t2d.width; x++){
-                        for(int y = 0; y < t2d.height; y++){
-                            Color c = t2d.GetPixel(x, y);
-                            diff += Mathf.Abs(c.r - _refree.r) + Mathf.Abs(c.g - _refree.g) + Mathf.Abs(c.b - _refree.b);
-                        }
+                        _checkSig = true;
+                        Thread thread = new Thread(() => {
+                            Calculate(t2d);
+                        });
+                        thread.Start();
                     }
-
-                    percentage = diff / t2d.width / t2d.height;
                 }
                 catch{
                     print("err reading percentage");
                 }
+            }
+        }
+
+        private void Calculate(Texture2D t2d){
+            if(_checkSig){                        
+                float diff = 0;
+                for(int x = 0; x < t2d.width; x++){
+                    for(int y = 0; y < t2d.height; y++){
+                        Color c = t2d.GetPixel(x, y);
+                        diff += Mathf.Abs(c.r - _refree.r) + Mathf.Abs(c.g - _refree.g) + Mathf.Abs(c.b - _refree.b);
+                    }
+                }
+
+                percentage = diff / t2d.width / t2d.height;
+                _checkSig = false;
             }
         }
     }
