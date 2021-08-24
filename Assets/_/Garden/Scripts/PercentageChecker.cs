@@ -17,12 +17,17 @@ namespace PT.Garden{
         private Material _mainMaterial;
         private Texture _texture;
         private bool _isChecking = true, _checkSig = false;
+        private int width, height;
+        private Color[] colors;
 
         private void Start(){
             _mainMaterial = _meshRenderer.materials[_matIndex];
             _txid = Shader.PropertyToID(_mainTexName);
 
             StartCoroutine(Check());
+
+            Thread thread = new Thread(Calculate);
+            thread.Start();
         }
         
         private IEnumerator Check(){
@@ -42,10 +47,9 @@ namespace PT.Garden{
                         RenderTexture.active = currentRT;
 
                         _checkSig = true;
-                        Thread thread = new Thread(() => {
-                            Calculate(t2d);
-                        });
-                        thread.Start();
+                        colors = t2d.GetPixels();
+                        width = t2d.width;
+                        height = t2d.height;
                     }
                 }
                 catch{
@@ -54,18 +58,21 @@ namespace PT.Garden{
             }
         }
 
-        private void Calculate(Texture2D t2d){
-            if(_checkSig){                        
-                float diff = 0;
-                for(int x = 0; x < t2d.width; x++){
-                    for(int y = 0; y < t2d.height; y++){
-                        Color c = t2d.GetPixel(x, y);
-                        diff += Mathf.Abs(c.r - _refree.r) + Mathf.Abs(c.g - _refree.g) + Mathf.Abs(c.b - _refree.b);
+        private void Calculate(){
+            while(_isChecking){
+                if(_checkSig){
+                    float diff = 0;
+                    for(int x = 0; x < width; x++){
+                        int w = width * x;
+                        for(int y = 0; y < height; y++){
+                            Color c = colors[w + y];
+                            diff += Mathf.Abs(c.r - _refree.r) + Mathf.Abs(c.g - _refree.g) + Mathf.Abs(c.b - _refree.b);
+                        }
                     }
-                }
 
-                percentage = diff / t2d.width / t2d.height;
-                _checkSig = false;
+                    percentage = diff / width / height;
+                    _checkSig = false;
+                }
             }
         }
     }
