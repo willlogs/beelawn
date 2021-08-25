@@ -20,9 +20,9 @@ namespace PT.Utils
                 _sum += _values[i];
             }
 
-            float oneMinusSum = 1 - _sum;
+            float oneMinusSum = 1.1f - _sum;
             val = oneMinusSum < val && oneMinusSum != 0 ? oneMinusSum : val;
-            if (_sum <= 1.15 && idx < _values.Length)
+            if (_sum <= 1.1 && idx < _values.Length)
             {
                 _sum += val;
                 _values[idx] = val;

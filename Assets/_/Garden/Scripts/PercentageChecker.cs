@@ -66,7 +66,7 @@ namespace PT.Garden{
                         int w = width * x;
                         for(int y = 0; y < height; y++){
                             Color c = colors[w + y];
-                            diff += Mathf.Abs(c.r - _refree.r) + Mathf.Abs(c.g - _refree.g) + Mathf.Abs(c.b - _refree.b);
+                            diff += System.Math.Abs(c.r - _refree.r);
                         }
                     }
 
