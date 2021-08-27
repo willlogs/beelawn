@@ -12,6 +12,7 @@ namespace PT.Bees
         public float radius = 2, speed = 5f;
 
         [SerializeField] private Bee[] _bees;
+        [SerializeField] private Rigidbody _masterBeeRB;
         private bool _isActive = true;
         private Vector3 _lastGoal = Vector3.zero, _lastDiff;
         private bool _hasLastGoal;
@@ -36,7 +37,7 @@ namespace PT.Bees
             Follow(_isActive);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (Input.GetMouseButton(0))
             {
@@ -67,7 +68,6 @@ namespace PT.Bees
             if (_hasLastGoal)
             {
                 Vector3 diff = goal - _lastGoal;
-                diff = diff.normalized;
 
                 if (diff.magnitude == 0)
                 {
@@ -79,6 +79,7 @@ namespace PT.Bees
                     diff.y = 0;
                 }
 
+                diff = diff.normalized;
                 isActive = true;
 
                 if (_bees.Length > 0)
@@ -86,14 +87,15 @@ namespace PT.Bees
                     _bees[0].transform.forward = Vector3.Lerp(
                         _bees[0].transform.forward,
                         diff.normalized,
-                        Time.deltaTime * 10
+                        Time.fixedDeltaTime * 10
                     );
 
-                    _bees[0].transform.position = Vector3.Lerp(
-                        _bees[0].transform.position,
-                        diff * speed + _bees[0].transform.position,
-                        Time.deltaTime * 5f
-                    );
+                    // _bees[0].transform.position = Vector3.Lerp(
+                    //     _bees[0].transform.position,
+                    //     diff * speed + _bees[0].transform.position,
+                    //     Time.deltaTime * 5f
+                    // );
+                    _masterBeeRB.velocity = diff * speed;
                 }
 
                 _lastDiff = diff;

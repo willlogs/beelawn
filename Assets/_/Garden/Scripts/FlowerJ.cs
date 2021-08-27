@@ -23,21 +23,25 @@ namespace PT.Garden
     {
         public UnityEvent BeforeDestroy;
 
+        [SerializeField] private float _beforeDestruction;
+
         public struct Data{
             public Quaternion quaternionOutput;
             public Vector3 myPos, tPos;
             public bool shoudlDie;
+            public float desMag;
 
-            public Data(Vector3 mp, Vector3 tp){
+            public Data(Vector3 mp, Vector3 tp, float dm){
                 quaternionOutput = new Quaternion();
                 myPos = mp;
                 tPos = tp;
                 shoudlDie = false;
+                desMag = dm;
             }
 
             public void Update(){
                 Vector3 look = tPos - myPos;
-                if(look.magnitude < 2.5){
+                if(look.magnitude < desMag){
                     shoudlDie = true;
                     return;
                 }
@@ -52,10 +56,7 @@ namespace PT.Garden
 
         public void GetDestroyed(){
             BeforeDestroy?.Invoke();
-        }
-
-        public void DestroyNow(){
-            Destroy(gameObject);
+            Destroy(gameObject, _beforeDestruction);
         }
     }
 }

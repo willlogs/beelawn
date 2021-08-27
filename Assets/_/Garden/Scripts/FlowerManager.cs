@@ -13,6 +13,7 @@ namespace PT.Garden
         [SerializeField] private float _radius = 0.5f;
         [SerializeField] private List<FlowerJ> _flowers;
         [SerializeField] private bool _hasTarget = false;
+        [SerializeField] private float _desMag = 2.5f;
 
         private void Awake()
         {
@@ -27,7 +28,7 @@ namespace PT.Garden
 
                 for (int i = 0; i < _flowers.Count; i++)
                 {
-                    flowerDataArray[i] = new FlowerJ.Data(_flowers[i].transform.position, targetT.position);
+                    flowerDataArray[i] = new FlowerJ.Data(_flowers[i].transform.position, targetT.position, _desMag);
                 }
 
                 FlowerUpdateJob job = new FlowerUpdateJob
