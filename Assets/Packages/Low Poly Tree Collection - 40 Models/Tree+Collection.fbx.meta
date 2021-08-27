@@ -1,0 +1,249 @@
+fileFormatVersion: 2
+guid: 92f6c502d30951c4e9c0505d6519affc
+ModelImporter:
+  serializedVersion: 25
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Baoba Leaves 01
+    second: {fileID: 2100000, guid: f8d93d3100a6a51428cc63de641cf317, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Baoba Trunk 01
+    second: {fileID: 2100000, guid: 07a3c9afe0d200e4c82496cc00169648, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Block Tree - Leaves 01
+    second: {fileID: 2100000, guid: 04880980d46c0fe409e9f93cf41a3de6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Block Tree - Leaves 02
+    second: {fileID: 2100000, guid: ce678d27442730e42a6f84d74cf2460a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Block Tree - Trunk
+    second: {fileID: 2100000, guid: 629d40b9e1b6560448edfb91493f7428, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cactus
+    second: {fileID: 2100000, guid: c5794bbaa1a14e44cb77ce879caafb35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Casual Tree - Leaves
+    second: {fileID: 2100000, guid: 9c855f42347735c47979da8146ff9b59, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Casual Tree - Leaves (2)
+    second: {fileID: 2100000, guid: 5ab54900793834c4b9b9bab6810787c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Casual Tree - Trunk
+    second: {fileID: 2100000, guid: 0ae140cacf76d084e9fd54c7ebd09da2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Desert Tree - Trunk
+    second: {fileID: 2100000, guid: d8342b3a805c1c144aeaeda051c85a5b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Desert Tree Leaves - 01
+    second: {fileID: 2100000, guid: ae22b7acad1a36a4e96524cf60ec1e8f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Desert Tree Leaves - 02
+    second: {fileID: 2100000, guid: 82c3a6442e5f11841af3505319b447fd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Desert Tree Leaves - 03
+    second: {fileID: 2100000, guid: b95062bf15c8700409db57091dd39799, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dry Tree - Trunk
+    second: {fileID: 2100000, guid: ffc4645d2e464ff46b71074cda9ba57e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flower - Center
+    second: {fileID: 2100000, guid: 972da1e48c30bb64aa12190f51dbb517, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flower - Pedicel
+    second: {fileID: 2100000, guid: 7606aabcacb4f114dbfa45bbcb7ecb01, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flower Petal - Pink
+    second: {fileID: 2100000, guid: dc4d47d007db45449a119b4c30a7e6c9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flower Petal - Red
+    second: {fileID: 2100000, guid: 9afb4a2dae8485d4e8b42dad9aa91d1f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flower Petal - White
+    second: {fileID: 2100000, guid: e0dab5b4b3c5a2849b8fb25a482b7d12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Flower Petal - Yellow
+    second: {fileID: 2100000, guid: 77cf3cece6612f4439e6e2f074705dd5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fruit Tree - Leaves
+    second: {fileID: 2100000, guid: 4d4b06ee277e3e44dbe7c2d9845b518c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fruit Tree - Orange Fruit
+    second: {fileID: 2100000, guid: ab8be4065bebc45489cadc477a48153f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fruit Tree - Red Fruit
+    second: {fileID: 2100000, guid: da734342a9d73a34e8d48d863838b162, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fruit Tree - Trunk
+    second: {fileID: 2100000, guid: e82b809e9d5bb8c4f9212db9512004dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fruit Tree - Yellow Fruit
+    second: {fileID: 2100000, guid: 1d871fc2cddb2da44baa17bb220facfa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Large Tree (Green) - Leaves
+    second: {fileID: 2100000, guid: 15f077c0e2bb3ee478615806a9875270, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Large Tree (Green) - Trunk
+    second: {fileID: 2100000, guid: f393fa3a1ea9f2e4dbac5c3d7ce83ae9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Large Tree (Red) - Leaves
+    second: {fileID: 2100000, guid: c1f473ea219af824bb7b7d509a179af3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Large Tree (Red) - Trunk
+    second: {fileID: 2100000, guid: 27f7607a422248d4799d8a859b3b3f0e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Palm Tree - Leaves
+    second: {fileID: 2100000, guid: 1b0b15d78643cf04ca5ce51e08e6c272, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Palm Tree - Trunk
+    second: {fileID: 2100000, guid: d48646dccd1ec6c4ca475f808569b92b, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 1
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

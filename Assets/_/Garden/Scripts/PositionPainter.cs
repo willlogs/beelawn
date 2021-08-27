@@ -9,27 +9,30 @@ namespace PT.Garden
     public class PositionPainter : MonoBehaviour
     {
         [SerializeField] private Brush _removeBrush, _bendBrush;
-        [SerializeField] private InkCanvas _bendCanvas, _removeCanvas;
+        public InkCanvas _bendCanvas, _removeCanvas;
         [SerializeField] private Bee _bee;
+        public bool _isPainting = false;
 
         private void Update(){
-            _bendCanvas.Paint(
-                _bendBrush,
-                new Vector3(
-                    transform.position.x,
-                    _bendCanvas.transform.position.y,
-                    transform.position.z
-                )
-            );
+            if(_isPainting){
+                _bendCanvas.Paint(
+                    _bendBrush,
+                    new Vector3(
+                        transform.position.x,
+                        _bendCanvas.transform.position.y,
+                        transform.position.z
+                    )
+                );
 
-            _removeCanvas.Paint(
-                _removeBrush,
-                new Vector3(
-                    transform.position.x,
-                    _removeCanvas.transform.position.y,
-                    transform.position.z
-                )
-            );
+                _removeCanvas.Paint(
+                    _removeBrush,
+                    new Vector3(
+                        transform.position.x,
+                        _removeCanvas.transform.position.y,
+                        transform.position.z
+                    )
+                );
+            }
         }
     }
 }

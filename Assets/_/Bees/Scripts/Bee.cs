@@ -8,6 +8,7 @@ namespace PT.Bees
     public class Bee : MonoBehaviour
     {
         public Vector3 position;
+        public bool isMain = false;
 
         public void SetParent(Bee p, BeeChain c)
         {
@@ -61,7 +62,7 @@ namespace PT.Bees
                 // --------------------- doing a random local move --------------------- //
                 Vector3 random = new Vector3(
                     Random.Range(-1f, 1f),
-                    Random.Range(-1f, 1f),
+                    0,
                     Random.Range(-1f, 1f)
                 ).normalized;
 
@@ -116,7 +117,7 @@ namespace PT.Bees
                 {
                     Vector3 newPos = new Vector3(
                         Random.Range(-_chain.radius, _chain.radius),
-                        Random.Range(-_chain.radius, _chain.radius),
+                        0,
                         Random.Range(-_chain.radius, _chain.radius)
                     ) + _chain.center;
 
