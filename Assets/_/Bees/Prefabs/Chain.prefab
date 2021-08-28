@@ -62,6 +62,7 @@ MonoBehaviour:
   goal: {x: 0, y: 0, z: 0}
   radius: 2
   speed: 10
+  capacity: 1000
   _bees:
   - {fileID: 8911718173642980240}
   - {fileID: 8911718172036713529}

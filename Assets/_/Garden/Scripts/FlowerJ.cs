@@ -43,8 +43,8 @@ namespace PT.Garden
                 Vector3 look = tPos - myPos;
                 if(look.magnitude < desMag){
                     shoudlDie = true;
-                    return;
                 }
+                
                 if(look.magnitude < 10){
                     Vector3 axis = Vector3.Cross(look.normalized, Vector3.up);
                     float angle = (10 - look.magnitude) / 10;

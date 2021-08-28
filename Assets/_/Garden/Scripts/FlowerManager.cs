@@ -14,10 +14,16 @@ namespace PT.Garden
         [SerializeField] private List<FlowerJ> _flowers;
         [SerializeField] private bool _hasTarget = false;
         [SerializeField] private float _desMag = 2.5f;
+        [SerializeField] private Bees.Bee _mainBee;
+        [SerializeField] private string _flowerID;
+        [SerializeField] private Color _color;
+
+        Bees.Honey _honey;
 
         private void Awake()
         {
             _flowers = new List<FlowerJ>(GetComponentsInChildren<FlowerJ>());
+            _honey = new Bees.Honey(_color);
         }
 
         private void Update()
@@ -41,13 +47,17 @@ namespace PT.Garden
 
                 for (int i = _flowers.Count - 1; i >= 0; i--)
                 {
+                    _flowers[i].transform.rotation = flowerDataArray[i].quaternionOutput;
                     if (flowerDataArray[i].shoudlDie)
                     {
-                        _flowers[i].GetDestroyed();
-                        _flowers.RemoveAt(i);
-                        continue;
-                    }
-                    _flowers[i].transform.rotation = flowerDataArray[i].quaternionOutput;
+                        bool d = false;
+                        d = _mainBee._chain.CatchHoney(_honey);
+                        if(d){
+                            _flowers[i].GetDestroyed();
+                            _flowers.RemoveAt(i);
+                            continue;
+                        }
+                    }                    
                 }
 
                 flowerDataArray.Dispose();
@@ -58,9 +68,9 @@ namespace PT.Garden
             Bees.Bee b = other.GetComponent<Bees.Bee>();
             if(b != null){
                 if(b.isMain){
-                    print("found");
                     _hasTarget = true;
                     targetT = b.transform;
+                    _mainBee = b;
                 }
             }
         }
@@ -69,7 +79,6 @@ namespace PT.Garden
             Bees.Bee b = other.GetComponent<Bees.Bee>();
             if(b != null){
                 if(b.isMain){
-                    print("exit");
                     _hasTarget = false;
                 }
             }

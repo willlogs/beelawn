@@ -1,21 +1,71 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace PT.Bees
 {
+    [Serializable]
+    public class Honey{
+        private static string glyphs = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+        public static string GenerateRandomString(int charAmount){
+            string myString = "";
+            for(int i=0; i<charAmount; i++)
+            {
+                myString += glyphs[UnityEngine.Random.Range(0, glyphs.Length)];
+            }
+            return myString;
+        }
+        
+        public Color color;
+        public string ID;
+        public float amount = 0;
+
+        public Honey(Honey h){
+            this.ID = h.ID;
+            this.color = new Color(h.color.r, h.color.g, h.color.b);
+        }
+
+        public Honey(Color c){
+            this.ID = GenerateRandomString(5);
+            this.color = new Color(c.r, c.g, c.b);
+        }
+    }
+
     public class BeeChain : MonoBehaviour
     {
         public bool isActive = false;
         public Vector3 center;
         public Vector3 goal;
-        public float radius = 2, speed = 5f;
+        public float radius = 2, speed = 5f, capacity = 100;
+        public Dictionary<string, Honey> honeys = new Dictionary<string, Honey>();
 
         [SerializeField] private Bee[] _bees;
         [SerializeField] private Rigidbody _masterBeeRB;
         private bool _isActive = true;
         private Vector3 _lastGoal = Vector3.zero, _lastDiff;
         private bool _hasLastGoal;
+        private float _honeyAmount = 0;
+
+        public bool CatchHoney(Honey h){
+            if(_honeyAmount < capacity){
+                Honey honeyRef;
+                if(honeys.ContainsKey(h.ID)){
+                    honeys.TryGetValue(h.ID, out honeyRef);
+                }else{
+                    honeyRef = new Honey(h);
+                    honeys.Add(h.ID, honeyRef);
+                    honeyRef.amount = 0;
+                }
+
+                honeyRef.amount ++;
+                _honeyAmount++;
+                return true;
+            }
+
+            return false;
+        }
 
         private void Awake()
         {
@@ -89,12 +139,7 @@ namespace PT.Bees
                         diff.normalized,
                         Time.fixedDeltaTime * 10
                     );
-
-                    // _bees[0].transform.position = Vector3.Lerp(
-                    //     _bees[0].transform.position,
-                    //     diff * speed + _bees[0].transform.position,
-                    //     Time.deltaTime * 5f
-                    // );
+                    
                     _masterBeeRB.velocity = diff * speed;
                 }
 

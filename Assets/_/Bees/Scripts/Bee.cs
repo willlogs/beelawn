@@ -9,6 +9,7 @@ namespace PT.Bees
     {
         public Vector3 position;
         public bool isMain = false;
+        public BeeChain _chain;
 
         public void SetParent(Bee p, BeeChain c)
         {
@@ -38,7 +39,6 @@ namespace PT.Bees
         [SerializeField] private float _delay = 0.2f, _tolerance = 0.2f, _randomFactor = 0.2f;
         [SerializeField] private Transform _beeBodyT;
         private Bee _parent;
-        private BeeChain _chain;
         private bool _hasParent, _hasChain, _follow, _outtafollow;
         private Tweener _randomTweener;
         private Vector3 _randomDir;
