@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GrassTex:
-        m_Texture: {fileID: 2800000, guid: 885d913134398480f8ea820d7975e769, type: 3}
+        m_Texture: {fileID: 2800000, guid: d0c7f9a31746f3949ae671fab3502ed7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoGrassTex:
-        m_Texture: {fileID: 2800000, guid: 73b25dc876110564e89c957e081c1d89, type: 3}
+        m_Texture: {fileID: 2800000, guid: d0d19e963af7e7c44857ca2681698f14, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -69,9 +69,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BendRotationRandom: 0.034
-    - _BladeHeight: 0.62
+    - _BladeHeight: 0.47
     - _BladeHeightRandom: 0.48
-    - _BladeWidth: 0.11
+    - _BladeWidth: 0.06
     - _BladeWidthRandom: 0.01
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -89,12 +89,12 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _TessellationUniform: 23
+    - _TessellationUniform: 15.8
     - _UVSec: 0
     - _WindRange: 0.5
     - _ZWrite: 1
     m_Colors:
-    - _BottomColor: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
+    - _BottomColor: {r: 0.66725963, g: 0.5330188, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _TopColor: {r: 1, g: 1, b: 1, a: 1}

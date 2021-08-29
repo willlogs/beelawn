@@ -21,6 +21,7 @@ namespace PT.Bees
         public Color color;
         public string ID;
         public float amount = 0;
+        public int jarIndex = 0;
 
         public Honey(Honey h){
             this.ID = h.ID;
@@ -65,6 +66,15 @@ namespace PT.Bees
             }
 
             return false;
+        }
+
+        public Honey[] GetHoneys(){
+            _honeyAmount = 0;
+            Honey[] h = new Honey[honeys.Count];
+            honeys.Values.CopyTo(h, 0);
+
+            honeys = new Dictionary<string, Honey>();
+            return h;
         }
 
         private void Awake()

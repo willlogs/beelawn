@@ -84,8 +84,8 @@ Material:
     - _VolumeFade: 0.5
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.35119838, b: 0, a: 1}
-    - _EmissionColor: {r: 0.89705884, g: 0.7276549, b: 0.01978808, a: 1}
+    - _Color: {r: 1, g: 0.7361614, b: 0, a: 1}
+    - _EmissionColor: {r: 0.8980392, g: 0.63459355, b: 0.019607857, a: 1}
     - _SColor: {r: 1, g: 0.59926957, b: 0.38235295, a: 1}
     - _SEmissionColor: {r: 0.8745099, g: 0.7413658, b: 0, a: 1}
     - _SurfaceTexAnim: {r: 1, g: 1, b: 0, a: 0}
