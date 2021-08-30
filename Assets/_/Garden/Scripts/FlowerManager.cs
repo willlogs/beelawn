@@ -17,6 +17,7 @@ namespace PT.Garden
         [SerializeField] private Bees.Bee _mainBee;
         [SerializeField] private string _flowerID;
         [SerializeField] private Color _color;
+        [SerializeField] private int _multiplier = 1;
 
         Bees.Honey _honey;
 
@@ -51,7 +52,7 @@ namespace PT.Garden
                     if (flowerDataArray[i].shoudlDie)
                     {
                         bool d = false;
-                        d = _mainBee._chain.CatchHoney(_honey);
+                        d = _mainBee._chain.CatchHoney(_honey, _multiplier);
                         if(d){
                             _flowers[i].GetDestroyed();
                             _flowers.RemoveAt(i);

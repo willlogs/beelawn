@@ -3,9 +3,13 @@ Shader "PT/PTGrass"
     Properties
     {
         _MainTex("Main Texture", 2D) = "white" {}
+        _DirtTex("Dirt Texture", 2D) = "white" {}
         _GrassTex("Grass Texture", 2D) = "white" {}
         _NoGrassTex("No Grass Texture", 2D) = "white" {}
         _WindTex("Wind Texture", 2D) = "white" {}
+        _BrushTex("Brush Texture", 2D) = "white" {}
+
+        [Toggle] _hasNeath("hasNeath", Float) = 0
 
         _TopColor("Grass Top Color", Color) = (.25, .5, .5, 1)
         _BottomColor("Grass Bottom Color", Color) = (.25, .5, .5, 1)
@@ -21,52 +25,66 @@ Shader "PT/PTGrass"
     }
     SubShader
     {
-        // Pass{
-        //     Name "BaseGround"
-        //     CGPROGRAM
-        //     #pragma vertex vert
-        //     #pragma fragment frag
-        //     // make fog work
-        //     #pragma multi_compile_fog
+        Pass{
+            Name "BaseGround"
+            Blend SrcAlpha OneMinusSrcAlpha
             
-        //     #include "UnityCG.cginc"
-
-        //     struct appdata
-        //     {
-        //         float4 vertex : POSITION;
-        //         float2 uv : TEXCOORD0;
-        //     };
-
-        //     struct v2f
-        //     {
-        //         float2 uv : TEXCOORD0;
-        //         UNITY_FOG_COORDS(1)
-        //         float4 vertex : SV_POSITION;
-        //     };
-
-        //     sampler2D _MainTex;
-        //     sampler2D _NoGrassTex;
-        //     float4 _MainTex_ST;
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            // make fog work
+            #pragma multi_compile_fog
             
-        //     v2f vert (appdata v)
-        //     {
-        //         v2f o;
-        //         o.vertex = UnityObjectToClipPos(v.vertex);
-        //         o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-        //         UNITY_TRANSFER_FOG(o,o.vertex);
-        //         return o;
-        //     }
+            #include "UnityCG.cginc"
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float2 uvb : TEXCOORD1;
+            };
+
+            struct v2f
+            {
+                UNITY_FOG_COORDS(1)
+                float4 vertex : SV_POSITION;
+                float2 uvb : TEXCOORD1;
+                float2 uv : TEXCOORD0;
+            };
+
+            sampler2D _MainTex;
+            sampler2D _DirtTex;
+            sampler2D _BrushTex;
+            sampler2D _NoGrassTex;
+            float4 _MainTex_ST;
+            float4 _BrushTex_ST;
+            float _hasNeath;
             
-        //     fixed4 frag (v2f i) : SV_Target
-        //     {
-        //         // sample the texture
-        //         fixed4 col = tex2D(_MainTex, i.uv);
-        //         // apply fog
-        //         UNITY_APPLY_FOG(i.fogCoord, col);
-        //         return col;
-        //     }
-        //     ENDCG
-        // }
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uvb = TRANSFORM_TEX(v.uvb, _BrushTex);
+                UNITY_TRANSFER_FOG(o,o.vertex);
+                return o;
+            }
+            
+            fixed4 frag (v2f i) : SV_Target
+            {
+                if(_hasNeath > 0){
+                    // sample the texture
+                    float a = tex2D(_BrushTex, i.uvb).a;
+                    fixed4 col = tex2D(_MainTex, i.uv) * a + tex2D(_DirtTex, i.uv) * (1 - a);
+                    // apply fog
+                    UNITY_APPLY_FOG(i.fogCoord, col);
+                    return col;
+                }
+
+                return 0;
+            }
+            ENDCG
+        }
 
         Pass{
             Name "GeometryGrass"

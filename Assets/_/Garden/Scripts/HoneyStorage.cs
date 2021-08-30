@@ -13,6 +13,11 @@ namespace PT.Garden
         [SerializeField] private float _honeyAmount;
         [SerializeField] private LiquidVolumeAnimator[] _jars;
         [SerializeField] private int nextFreeJarIdx = 0;
+        [SerializeField] private TMPro.TextMeshProUGUI _text;
+
+        public void SellHoney(){
+            
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -27,6 +32,7 @@ namespace PT.Garden
                     {
                         CatchHoney(honeys[i]);
                     }
+                    _text.text = _honeyAmount + "";
                     UpdateJars();
                 }
             }
