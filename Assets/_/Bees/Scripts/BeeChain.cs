@@ -51,7 +51,7 @@ namespace PT.Bees
         [SerializeField] private Rigidbody _masterBeeRB;
         private bool _isActive = true;
         private Vector3 _lastGoal = Vector3.zero, _lastDiff;
-        private bool _hasLastGoal;
+        private bool _hasLastGoal, _hasSlider;
         private float _honeyAmount = 0;
 
         public bool CatchHoney(Honey h, int amount = 1)
@@ -74,7 +74,7 @@ namespace PT.Bees
                 _honeyAmount += amount;
 
                 UpdateSlider();
-                
+
                 return true;
             }
 
@@ -87,17 +87,23 @@ namespace PT.Bees
             Honey[] h = new Honey[honeys.Count];
             honeys.Values.CopyTo(h, 0);
 
-            _multiColorSlider.ResetValues();
+            if (_hasSlider)
+                _multiColorSlider.ResetValues();
 
             honeys = new Dictionary<string, Honey>();
             return h;
         }
 
-        private void UpdateSlider(){
-            int i = 0;
-            foreach(Honey h in honeys.Values){
-                _multiColorSlider.SetValue(i, h.amount / capacity, h.color);
-                i++;
+        private void UpdateSlider()
+        {
+            if (_hasSlider)
+            {
+                int i = 0;
+                foreach (Honey h in honeys.Values)
+                {
+                    _multiColorSlider.SetValue(i, h.amount / capacity, h.color);
+                    i++;
+                }
             }
         }
 
@@ -119,6 +125,7 @@ namespace PT.Bees
         private void Start()
         {
             Follow(_isActive);
+            _hasSlider = _multiColorSlider != null;
         }
 
         private void FixedUpdate()

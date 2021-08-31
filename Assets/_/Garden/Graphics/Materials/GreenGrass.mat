@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BrushTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -32,6 +36,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DirtTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -71,7 +79,7 @@ Material:
     - _BendRotationRandom: 0.034
     - _BladeHeight: 0.62
     - _BladeHeightRandom: 0.48
-    - _BladeWidth: 0.11
+    - _BladeWidth: 0.25
     - _BladeWidthRandom: 0.01
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -89,10 +97,11 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _TessellationUniform: 23
+    - _TessellationUniform: 15
     - _UVSec: 0
     - _WindRange: 0.5
     - _ZWrite: 1
+    - _hasNeath: 0
     m_Colors:
     - _BottomColor: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

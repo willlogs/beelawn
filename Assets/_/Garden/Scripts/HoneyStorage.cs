@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PT.Bees;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 namespace PT.Garden
 {
@@ -16,7 +17,13 @@ namespace PT.Garden
         [SerializeField] private TMPro.TextMeshProUGUI _text;
 
         public void SellHoney(){
-            
+            if(_honeyAmount > 0){
+                int idx = SceneManager.GetActiveScene().buildIndex;
+                if(idx == SceneManager.sceneCount - 1){
+                    idx = 0;
+                }
+                SceneManager.LoadScene(idx + 1);
+            }
         }
 
         private void OnTriggerEnter(Collider other)

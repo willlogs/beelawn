@@ -79,7 +79,7 @@ Material:
     - _BendRotationRandom: 0.034
     - _BladeHeight: 0.47
     - _BladeHeightRandom: 0.48
-    - _BladeWidth: 0.06
+    - _BladeWidth: 0.25
     - _BladeWidthRandom: 0.01
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -97,7 +97,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _TessellationUniform: 34.2
+    - _TessellationUniform: 15
     - _UVSec: 0
     - _WindRange: 0.5
     - _ZWrite: 1

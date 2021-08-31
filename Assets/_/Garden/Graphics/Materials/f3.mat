@@ -79,7 +79,7 @@ Material:
     - _BendRotationRandom: 0.034
     - _BladeHeight: 0.62
     - _BladeHeightRandom: 0.48
-    - _BladeWidth: 0.11
+    - _BladeWidth: 0.25
     - _BladeWidthRandom: 0.01
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -97,15 +97,15 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StencilRef: 0
-    - _TessellationUniform: 23
+    - _TessellationUniform: 15
     - _UVSec: 0
     - _WindRange: 0.5
     - _ZWrite: 1
     - _hasNeath: 1
     m_Colors:
-    - _BottomColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
+    - _BottomColor: {r: 0.28662333, g: 0.3031704, b: 0.5377358, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TopColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TopColor: {r: 0.95003706, g: 1, b: 0.4198113, a: 0.5372549}
     - _WindSource: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

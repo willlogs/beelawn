@@ -2,78 +2,86 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace PT.Garden{
     public class PercentageChecker : MonoBehaviour
     {
-        public float percentage = 0;
+        [SerializeField] private float percentage;
+        private float[] results;
 
+        [SerializeField] private ComputeShader _cs;
         [SerializeField] private Color _refree;
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private int _matIndex = 0;
         [SerializeField] private string _mainTexName = "_NoGrassTex";
         [SerializeField] private float _betweenReads = 0.5f;
+        [SerializeField] private bool _run;
         private int _txid;
         private Material _mainMaterial;
         private Texture _texture;
         private bool _isChecking = true, _checkSig = false;
         private int width, height;
         private Color[] colors;
+        [SerializeField] int kernelindex;
+        [SerializeField] private Image _filledSlider;
+        private ComputeBuffer sumBuffer;
 
         private void Start(){
             _mainMaterial = _meshRenderer.materials[_matIndex];
             _txid = Shader.PropertyToID(_mainTexName);
-
-            StartCoroutine(Check());
-
-            Thread thread = new Thread(Calculate);
-            thread.Start();
+            kernelindex = _cs.FindKernel("CSMain");
+            _texture = _mainMaterial.GetTexture(_txid);
+            results = new float[_texture.width * _texture.height];
+            sumBuffer = new ComputeBuffer(results.Length, sizeof(float));
         }
         
-        private IEnumerator Check(){
-            while(_isChecking){
-                yield return new WaitForSeconds(_betweenReads);
+        private void Update(){
+            _run = false;
+            
+            // get the texture
+            _texture = _mainMaterial.GetTexture(_txid);
+            RenderTexture t = (RenderTexture)_texture;
 
-                try{
-                    if(!_checkSig){
-                        RenderTexture t = (RenderTexture)_texture;
-                        _texture = _mainMaterial.GetTexture(_txid);
-                        Texture2D t2d = new Texture2D(_texture.width, _texture.height, TextureFormat.RGBA32, false);
+            RenderTexture rt = new RenderTexture(t.width, t.height, t.depth, t.format);
+            rt.enableRandomWrite = true;
+            rt.Create();
 
-                        RenderTexture currentRT = RenderTexture.active;
-                        RenderTexture.active = t;
-                        t2d.ReadPixels(new Rect(0, 0, t.width, t.height), 0, 0);
-                        t2d.Apply();
-                        RenderTexture.active = currentRT;
+            RenderTexture currentRT = RenderTexture.active;
+            RenderTexture.active = t;
+            
+            // copy the texture
+            Graphics.Blit(t, rt);
 
-                        _checkSig = true;
-                        colors = t2d.GetPixels();
-                        width = t2d.width;
-                        height = t2d.height;
-                    }
+            RenderTexture.active = currentRT;
+            
+            _cs.SetBuffer(kernelindex, "diffSum", sumBuffer);
+            _cs.SetFloat("resolution", rt.width);
+            _cs.SetTexture(kernelindex, "Input", rt);
+            _cs.Dispatch(kernelindex, _texture.width / 8, _texture.height / 8, 1);
+            sumBuffer.GetData(results);
+
+            float sum = 0;
+            for(int i = 0; i < results.Length; i++){
+                sum += results[i];
+            }
+
+            percentage = sum / results.Length;
+            _filledSlider.fillAmount = percentage;
+
+            if(percentage > 0.95){
+                // win
+                int idx = SceneManager.GetActiveScene().buildIndex;
+                if(idx == SceneManager.sceneCount - 1){
+                    idx = 0;
                 }
-                catch{
-                    print("err reading percentage");
-                }
+                SceneManager.LoadScene(idx + 1);
             }
         }
 
-        private void Calculate(){
-            while(_isChecking){
-                if(_checkSig){
-                    float diff = 0;
-                    for(int x = 0; x < width; x++){
-                        int w = width * x;
-                        for(int y = 0; y < height; y++){
-                            Color c = colors[w + y];
-                            diff += System.Math.Abs(c.r - _refree.r);
-                        }
-                    }
-
-                    percentage = diff / width / height;
-                    _checkSig = false;
-                }
-            }
+        private void OnDestroy(){
+            sumBuffer.Dispose();
         }
     }
 }
