@@ -77,9 +77,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BendRotationRandom: 0.034
-    - _BladeHeight: 0.47
-    - _BladeHeightRandom: 0.48
-    - _BladeWidth: 0.25
+    - _BladeHeight: 1.12
+    - _BladeHeightRandom: 0.07
+    - _BladeWidth: 0.13
     - _BladeWidthRandom: 0.01
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -106,6 +106,6 @@ Material:
     - _BottomColor: {r: 0.22258458, g: 0.08223567, b: 0.8301887, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TopColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TopColor: {r: 1, g: 1, b: 1, a: 0.48235294}
     - _WindSource: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
