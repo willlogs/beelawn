@@ -76,6 +76,7 @@ MonoBehaviour:
   - {fileID: 4541721452600121287}
   - {fileID: 8770037925148205539}
   _masterBeeRB: {fileID: 5016643584858883758}
+  _movementThreshold: 2
 --- !u!1001 &1802321959573028064
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -906,6 +907,14 @@ PrefabInstance:
     - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: _removeCanvas
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
@@ -1760,6 +1769,14 @@ PrefabInstance:
       propertyPath: _removeCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
       value: Bee (7)
@@ -2608,6 +2625,14 @@ PrefabInstance:
     - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: _removeCanvas
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
@@ -3467,6 +3492,14 @@ PrefabInstance:
       propertyPath: _removeCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
       value: Bee (5)
@@ -4319,6 +4352,14 @@ PrefabInstance:
     - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: _removeCanvas
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
@@ -5173,6 +5214,14 @@ PrefabInstance:
       propertyPath: _removeCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
       value: Bee (4)
@@ -6025,6 +6074,14 @@ PrefabInstance:
     - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: _removeCanvas
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
@@ -6879,6 +6936,14 @@ PrefabInstance:
       propertyPath: _removeCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
       value: Bee (1)
@@ -7727,6 +7792,14 @@ PrefabInstance:
     - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: _removeCanvas
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
@@ -8581,6 +8654,14 @@ PrefabInstance:
       propertyPath: _removeCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
       value: Bee (6)
@@ -9434,6 +9515,14 @@ PrefabInstance:
       propertyPath: _removeCanvas
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name
       value: Bee (10)
@@ -10286,6 +10375,14 @@ PrefabInstance:
     - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: _removeCanvas
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _bendBrush.brushScale
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082392901889145099, guid: ba42120ea73e094439933d56ce101219, type: 3}
+      propertyPath: _removeBrush.brushScale
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9116437518974083282, guid: ba42120ea73e094439933d56ce101219, type: 3}
       propertyPath: m_Name

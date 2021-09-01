@@ -156,7 +156,7 @@ namespace PT.Bees
 
         private void OnInput()
         {
-            goal = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            goal = Input.mousePosition;
             if (_hasLastGoal)
             {
                 Vector3 diff = goal - _lastGoal;
@@ -182,7 +182,7 @@ namespace PT.Bees
                         Time.fixedDeltaTime * 10
                     );
 
-                    _masterBeeRB.velocity = diff * speed;
+                    _masterBeeRB.velocity = Vector3.Lerp(_masterBeeRB.velocity, diff * speed, Time.fixedDeltaTime * 10);
                 }
 
                 _lastDiff = diff;

@@ -462,7 +462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloomColor: {r: 1, g: 1, b: 1, a: 1}
   threshold: 0.652
-  intensity: 0.385
+  intensity: 0.556
   resolution: 1
   blurIterations: 1
   material: {fileID: 2100000, guid: 050512b117c564ce78f612046b53b2d1, type: 2}
@@ -699,13 +699,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503875471}
-  m_LocalRotation: {x: 0.0915304, y: -0.8847967, z: 0.41258726, w: 0.1962875}
+  m_LocalRotation: {x: 0.41301838, y: -0.19207317, z: 0.08956484, w: 0.88572115}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 50, y: -154.984, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: -24.471, z: 0}
 --- !u!1 &599049995
 GameObject:
   m_ObjectHideFlags: 0
