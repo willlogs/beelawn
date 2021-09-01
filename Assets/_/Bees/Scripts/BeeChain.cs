@@ -49,6 +49,7 @@ namespace PT.Bees
 
         [SerializeField] private Bee[] _bees;
         [SerializeField] private Rigidbody _masterBeeRB;
+        [SerializeField] private float _movementThreshold = 0.005f;
         private bool _isActive = true;
         private Vector3 _lastGoal = Vector3.zero, _lastDiff;
         private bool _hasLastGoal, _hasSlider;
@@ -160,7 +161,7 @@ namespace PT.Bees
             {
                 Vector3 diff = goal - _lastGoal;
 
-                if (diff.magnitude == 0)
+                if (diff.magnitude < _movementThreshold)
                 {
                     diff = _lastDiff;
                 }
