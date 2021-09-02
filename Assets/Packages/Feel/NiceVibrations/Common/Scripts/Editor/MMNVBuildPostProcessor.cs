@@ -17,8 +17,8 @@ namespace MoreMountains.NiceVibrations
     /// <summary>
     /// This class takes care of post processing after a build, adding properties to the XCode project or framework depending on the Unity version.
     /// Note that this class tries to guess paths to certain files, and while this will work in most cases, you may be in a configuration where it doesn't.
-    /// You'll need to bind the header and mobule files in an asset located in NiceVibrations/Common/Resources, and called
-    /// MMNVPathDefinition. Don't change its name! Just select it, and from the editor, bind the files if it's not already the case.
+    /// If needed, you can override paths manually by editing the scriptable object located in NiceVibrations/Common/Resources, and called
+    /// MMNVPathDefinition. Don't change its name! Just select it, and from the editor, specify your paths overrides.
     /// </summary>
     public class MMNVBuildPostProcessor : IPostprocessBuildWithReport
     {
@@ -26,21 +26,6 @@ namespace MoreMountains.NiceVibrations
 
         /// the order at which this build post processor should run
         public int callbackOrder => 1;
-
-        public static string _pluginPath;
-
-        public static string _headerFileName;
-        public static string _headerFileUnityPath;
-        public static string _headerFileXCodePath;
-
-        public static string _moduleFileName;
-        public static string _moduleFileUnityPath;
-        public static string _moduleFileXCodePath;
-
-        public static MMNVPath _mmnvPath;
-
-        public static bool _forceSwiftForFramework = false;
-        public static bool _forceSwiftForMainTarget = false;
 
         /// <summary>
         /// On post process build, we run our treatment, and throw an error if necessary
@@ -50,12 +35,6 @@ namespace MoreMountains.NiceVibrations
         {
             try
             {
-
-                if (EditorUserBuildSettings.symlinkLibraries)
-                {
-                    Debug.LogError("[MMNVBuildPostProcessor] Please make sure you set 'Symlink Unity Libraries' to false in your build settings before building.");
-                }
-
                 if (report.summary.platform == BuildTarget.iOS)
                 {
                     string path = report.summary.outputPath;
@@ -70,73 +49,125 @@ namespace MoreMountains.NiceVibrations
             }
         }
 
-#if UNITY_IOS && UNITY_EDITOR
-
         /// <summary>
-        /// Grabs the MMNVPathDefinition asset
+        /// This method tries to guess the path to the plugin
         /// </summary>
-        public static void GetMMNVPath()
+        /// <returns></returns>
+        public static string GetPluginPath()
         {
-            if (_mmnvPath == null)
+            #if UNITY_IOS && UNITY_EDITOR
+                string[] res = System.IO.Directory.GetFiles(Application.dataPath, "MMNVBuildPostProcessor.cs", SearchOption.AllDirectories);
+                if (res.Length == 0)
+                {
+                    return "error";
+                }
+                string path = res[0].Replace("MMNVBuildPostProcessor.cs", "")
+                                    .Replace("\\", SEPARATOR.ToString())
+                                    .Replace("/", SEPARATOR.ToString())
+                                    .Replace("" + SEPARATOR + SEPARATOR + "", SEPARATOR.ToString());
+
+                string[] explodedPath = path.Split(SEPARATOR);
+
+                string finalPath = "Libraries"+SEPARATOR;
+
+                bool assetsFound = false;
+                for (int i = 0; i < explodedPath.Length; i++)
+                {
+                    if (!assetsFound)
+                    {
+                        if (explodedPath[i] == "Assets")
+                        {
+                            assetsFound = true;
+                        }
+                    }
+                    else
+                    {
+                        finalPath += explodedPath[i] + SEPARATOR;
+                    }
+                }
+                finalPath = finalPath.Replace("" + SEPARATOR + SEPARATOR + "", SEPARATOR.ToString());
+                finalPath = finalPath.Replace("Common"+SEPARATOR+"Scripts"+SEPARATOR+"Editor", "Common"+SEPARATOR+"Plugins"+SEPARATOR+"iOS"+SEPARATOR+"Swift"+SEPARATOR);
+                finalPath = finalPath.Replace(""+SEPARATOR+SEPARATOR+"", SEPARATOR.ToString());
+
+            Debug.Log("[MMNVBuildPostProcessor] Final path : " + finalPath);
+
+            if (!finalPath.Contains("Common"+SEPARATOR+"Plugins"+ SEPARATOR+"iOS"+ SEPARATOR+"Swift"))
             {
-                _mmnvPath = Resources.Load<MMNVPath>("MMNVPathDefinition");
+                Debug.Log("[MMNVBuildPostProcessor] Path not found :(");
+                return "path not found";
             }
-            if (_mmnvPath != null)
-            {
-                _forceSwiftForFramework = _mmnvPath.ForceAlwaysEmbedSwiftSLForFramework;
-                _forceSwiftForMainTarget = _mmnvPath.ForceAlwaysEmbedSwiftSLForMainTarget;
-            }
+
+
+            Debug.Log("[MMNVBuildPostProcessor] Final path : " + finalPath);
+
+            return finalPath;
+            #else
+                return "not iOS";
+            #endif
         }
 
-        /// <summary>
-        /// Determines the paths based on the files bound in the MMNVPathDefinition asset
-        /// </summary>
-        public static void DeterminePaths()
-        {
-            _pluginPath = "";
-
-            if (_mmnvPath != null)
-            {
-                _pluginPath = AssetDatabase.GetAssetPath(_mmnvPath.Header);
-                _headerFileName = System.IO.Path.GetFileName(_pluginPath);
-                _headerFileUnityPath = _pluginPath;
-
-                _pluginPath = ReplaceFirst(_pluginPath, "Assets", "Libraries");
-                _pluginPath = _pluginPath.Replace(_headerFileName, "");
-                _headerFileXCodePath = _pluginPath + _headerFileName;
-
-                _moduleFileUnityPath = AssetDatabase.GetAssetPath(_mmnvPath.ModuleMap);
-                _moduleFileName = System.IO.Path.GetFileName(_moduleFileUnityPath);
-                _moduleFileXCodePath = _pluginPath + _moduleFileName;
-            }
-            else
-            {
-                Debug.LogError("[MMNVBuildPostProcessor] No MMNVPath asset could be found. Make sure you have one named MMNVPathDefinition in a Resources folder.");
-            }
-        }
-
-        /// <summary>
-        /// A method to setup XCode's framework and main target 
-        /// </summary>
-        /// <param name="xcodeProjectPath"></param>
+    #if UNITY_IOS && UNITY_EDITOR
         public static void ConfigureXCodeProjectForNativePlugin(string xcodeProjectPath)
         {
-            GetMMNVPath();
-            DeterminePaths();
+            string pluginPath = GetPluginPath();
+
+            // we check if we can find a manual path override
+            MMNVPath pathDefinition = Resources.Load<MMNVPath>("MMNVPathDefinition");
+            bool forceSwiftForFramework = false;
+            bool forceSwiftForMainTarget = false;            
+            if (pathDefinition != null)
+            {
+                if (pathDefinition.PluginPath != "")
+                {
+                    pluginPath = pathDefinition.PluginPath;
+                }
+                forceSwiftForFramework = pathDefinition.ForceAlwaysEmbedSwiftSLForFramework;
+                forceSwiftForMainTarget = pathDefinition.ForceAlwaysEmbedSwiftSLForMainTarget;
+            }
 
             string pbxProjectPath = PBXProject.GetPBXProjectPath(xcodeProjectPath);
             PBXProject pbxProject = new PBXProject();
             pbxProject.ReadFromString(File.ReadAllText(pbxProjectPath));
+            #if UNITY_2019_3_OR_NEWER
+                string targetGUID = pbxProject.GetUnityFrameworkTargetGuid();
+                WritePropertiesToFramework(pbxProject, targetGUID, pbxProjectPath, pluginPath, forceSwiftForFramework);
 
-            string targetGUID = pbxProject.GetUnityFrameworkTargetGuid();
-            WritePropertiesToFramework(pbxProject, targetGUID, pbxProjectPath, _pluginPath, _forceSwiftForFramework);
-
-            targetGUID = pbxProject.GetUnityMainTargetGuid();
-            WritePropertiesToMainTarget(pbxProject, targetGUID, pbxProjectPath, _pluginPath, _forceSwiftForMainTarget);
-
+                targetGUID = pbxProject.GetUnityMainTargetGuid();
+                WritePropertiesToMainTarget(pbxProject, targetGUID, pbxProjectPath, pluginPath, forceSwiftForMainTarget);
+#else
+                string unityTargetName = PBXProject.GetUnityTargetName();
+                string targetGUID = pbxProject.TargetGuidByName(unityTargetName);
+                WritePropertiesToProject(pbxProject, targetGUID, pbxProjectPath, pluginPath, forceAlwaysEmbedSwiftStandardLibraries);
+#endif
             File.WriteAllText(pbxProjectPath, pbxProject.WriteToString());
             Debug.Log("[MMNVBuildPostProcessor] Post process complete.");
         }
+        /// <summary>
+        /// Writes properties to the XCode project
+        /// </summary>
+        /// <param name="pbxProject"></param>
+        /// <param name="targetGUID"></param>
+        /// <param name="pbxProjectPath"></param>
+        /// <param name="pluginPath"></param>
+        private static void WritePropertiesToProject(PBXProject pbxProject, string targetGUID, string pbxProjectPath, string pluginPath, bool forceAlwaysEmbedSwiftStandardLibraries)
+        {
+            pbxProject.AddFrameworkToProject(targetGUID, "CoreHaptics.framework", false);
+            pbxProject.SetBuildProperty(targetGUID, "SWIFT_VERSION", "5.1");
+            pbxProject.SetBuildProperty(targetGUID, "ENABLE_BITCODE", "NO");
+            pbxProject.SetBuildProperty(targetGUID, "SWIFT_OBJC_BRIDGING_HEADER", pluginPath + "UnitySwift-Bridging-Header.h");
+            pbxProject.SetBuildProperty(targetGUID, "SWIFT_OBJC_INTERFACE_HEADER_NAME", "unityswift-Swift.h");
+            pbxProject.SetBuildProperty(targetGUID, "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks");
+            if (forceAlwaysEmbedSwiftStandardLibraries)
+            {
+                pbxProject.SetBuildProperty(targetGUID, "EMBEDDED_CONTENT_CONTAINS_SWIFT", "YES");
+                pbxProject.SetBuildProperty(targetGUID, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
+            }
+            File.WriteAllText(pbxProjectPath, pbxProject.WriteToString());
+
+            Debug.Log("[MMNVBuildPostProcessor] Adding properties to XCode project, plugin path : " + pluginPath);
+        }
+
+        const string _privateModuleFilename = "module.modulemap";
 
         /// <summary>
         /// Writes properties to the XCode framework
@@ -147,9 +178,27 @@ namespace MoreMountains.NiceVibrations
         /// <param name="pluginPath"></param>
         private static void WritePropertiesToFramework(PBXProject pbxProject, string targetGUID, string pbxProjectPath, string pluginPath, bool forceAlwaysEmbedSwiftStandardLibraries)
         {
+            string privateModuleFilename = _privateModuleFilename;
+            string pluginRelativePath = pluginPath.Substring(10, pluginPath.Length - 10); // remove 'Libraries/'
+
+            // we look for manual path overrides
+            MMNVPath pathDefinition = Resources.Load<MMNVPath>("MMNVPathDefinition");
+            if (pathDefinition != null)
+            {
+                if (pathDefinition.ModuleFileName != "")
+                {
+                    privateModuleFilename = pathDefinition.ModuleFileName;
+                }
+                if (pathDefinition.PluginRelativePath != "")
+                {
+                    pluginRelativePath = pathDefinition.PluginRelativePath;
+                }
+            }
+            Debug.Log("[MMNVBuildPostProcessor] module relative path in Unity project: " + pluginRelativePath);
+
             // Full Path to copy from
-            Debug.Log("[MMNVBuildPostProcessor] Adding properties to XCode framework");
-            Debug.Log("[MMNVBuildPostProcessor] Plugin path : " + pluginPath);
+            string module_map_filepath = pluginPath + privateModuleFilename;
+            Debug.Log("[MMNVBuildPostProcessor] Adding properties to XCode framework, module path : " + module_map_filepath);
 
             pbxProject.AddFrameworkToProject(targetGUID, "CoreHaptics.framework", false);
             pbxProject.SetBuildProperty(targetGUID, "SWIFT_VERSION", "5.1");
@@ -164,39 +213,23 @@ namespace MoreMountains.NiceVibrations
             pbxProject.SetBuildProperty(targetGUID, "SWIFT_INCLUDE_PATHS", pluginPath);
             pbxProject.SetBuildProperty(targetGUID, "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks");
 
-            // if you're using the FB SDK and are having issues with your build pipeline, you may want to uncomment these lines (part 1/2) :
-            // proj.AddBuildProperty(targetGUID, "OTHER_LDFLAGS", "-lxml2");
-            // proj.AddFrameworkToProject(targetGUID, "libxml2.dylib", true);
 
             // we add a module reference to the pbx project
-            Debug.Log("[MMNVBuildPostProcessor] Add module reference : " + _moduleFileUnityPath + " -> " + _moduleFileXCodePath);
-            string file_guid = pbxProject.AddFile(_moduleFileXCodePath,
-                                                    _moduleFileXCodePath,
-                                                    PBXSourceTree.Source);
-            Debug.Log("[MMNVBuildPostProcessor] Module GUID : " + file_guid);
+            string file_guid = pbxProject.AddFile(module_map_filepath, module_map_filepath, PBXSourceTree.Source);
             pbxProject.AddFileToBuild(targetGUID, file_guid);
             File.WriteAllText(pbxProjectPath, pbxProject.WriteToString());
 
             // we copy the module file to the project
+            string privateModuleFilepath = Application.dataPath + SEPARATOR + pluginRelativePath + SEPARATOR + privateModuleFilename;
             string projFileDir = System.IO.Path.GetDirectoryName(pbxProjectPath);
-            string moduleFilePath = Application.dataPath + SEPARATOR + ".." + SEPARATOR + _moduleFileUnityPath;
-            string destination = projFileDir + SEPARATOR + ".." + SEPARATOR + pluginPath + _moduleFileName;
+            string destination = projFileDir + SEPARATOR+".."+ SEPARATOR + module_map_filepath;
             if (!Directory.Exists (Path.GetDirectoryName(destination)))
             {
-              Debug.Log("[MMNVBuildPostProcessor] Creating directory " + destination);
+              Debug.Log("[MMNVBuildPostProcessor] Creating directory "+destination);
               Directory.CreateDirectory(Path.GetDirectoryName(destination));
             }
-            Debug.Log("[MMNVBuildPostProcessor] Copy module file to project : " + moduleFilePath + " -> " + destination);
-            System.IO.File.Copy(moduleFilePath, destination, true);
-
-            Debug.Log("[MMNVBuildPostProcessor] Copy module file to project : " + moduleFilePath + " -> " + destination);
-            string headerGUID = pbxProject.AddFile(_headerFileUnityPath,
-                                                    _headerFileXCodePath,
-                                                    PBXSourceTree.Source);
-            pbxProject.AddFileToBuild(targetGUID, headerGUID);
-            pbxProject.AddPublicHeaderToBuild(targetGUID, headerGUID);
-
-            Debug.Log("[MMNVBuildPostProcessor] Framework complete");
+            Debug.Log("[MMNVBuildPostProcessor] Copy module file to project : " + privateModuleFilepath + " -> " + destination);
+            System.IO.File.Copy(privateModuleFilepath, destination, true);
         }
 
         /// <summary>
@@ -204,36 +237,11 @@ namespace MoreMountains.NiceVibrations
         /// </summary>
         private static void WritePropertiesToMainTarget(PBXProject pbxProject, string targetGUID, string pbxProjectPath, string pluginPath, bool forceAlwaysEmbedSwiftStandardLibraries)
         {
-            Debug.Log("[MMNVBuildPostProcessor] Writing properties to main target");
-            pbxProject.SetBuildProperty(targetGUID, "SWIFT_VERSION", "5.1");
             if (forceAlwaysEmbedSwiftStandardLibraries)
             {
                 pbxProject.SetBuildProperty(targetGUID, "EMBEDDED_CONTENT_CONTAINS_SWIFT", "YES");
                 pbxProject.SetBuildProperty(targetGUID, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
             }
-            Debug.Log("[MMNVBuildPostProcessor] Main target complete");
-
-            // if you're using the FB SDK and are having issues with your build pipeline, you may want to uncomment these lines (part 2/2) :
-            // proj.AddBuildProperty(targetGuid, "OTHER_LDFLAGS", "-lxml2");
-            // proj.AddFrameworkToProject(targetGuid, "libxml2.dylib", true);
-            // proj.AddFrameworkToProject(targetGuid, "StoreKit.framework", true);
-        }
-
-        /// <summary>
-        /// A helper method that replaces the first found instance of a pattern in a string with a replacement
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="search"></param>
-        /// <param name="replace"></param>
-        /// <returns></returns>
-        public static string ReplaceFirst(string text, string search, string replace)
-        {
-            int pos = text.IndexOf(search);
-            if (pos < 0)
-            {
-                return text;
-            }
-            return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
         }
 #endif
     }

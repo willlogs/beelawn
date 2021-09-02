@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR;
 
 namespace MoreMountains.NiceVibrations
 {
@@ -13,20 +12,20 @@ namespace MoreMountains.NiceVibrations
         /// whether or not we're playing a continuous rumble right now
         public static bool RumblingContinuous = false;
 
-        public static UnityEngine.InputSystem.Gamepad GetGamepad(int id)
+        public static Gamepad GetGamepad(int id)
         {
             if (id != -1)
             {
-                if (id >= UnityEngine.InputSystem.Gamepad.all.Count)
+                if (id >= Gamepad.all.Count)
                 {
-                    return UnityEngine.InputSystem.Gamepad.current;
+                    return Gamepad.current;
                 }
                 else
                 {
-                    return UnityEngine.InputSystem.Gamepad.all[id];
+                    return Gamepad.all[id];
                 }                
             }
-            return UnityEngine.InputSystem.Gamepad.current;
+            return Gamepad.current;
         }
 
         /// <summary>
@@ -73,10 +72,6 @@ namespace MoreMountains.NiceVibrations
         /// <param name="repeat">Repeat : -1 : no repeat, 0 : infinite, 1 : repeat once, 2 : repeat twice, etc</param>
         public static void Rumble(long[] pattern, int[] amplitudes, int repeat, MonoBehaviour coroutineSupport, int controllerID = -1)
         {
-            if ((pattern == null) || (amplitudes == null))
-            {
-                return;
-            }
             coroutineSupport.StartCoroutine(RumblePatternCoroutine(pattern, amplitudes, amplitudes, repeat, coroutineSupport, controllerID));
         }
 
@@ -90,10 +85,6 @@ namespace MoreMountains.NiceVibrations
         /// <param name="coroutineSupport"></param>
         public static void Rumble(long[] pattern, int[] lowFreqAmplitudes, int[] highFreqAmplitudes, int repeat, MonoBehaviour coroutineSupport, int controllerID = -1)
         {
-            if ((pattern == null) || (lowFreqAmplitudes == null) || (highFreqAmplitudes == null))
-            {
-                return;
-            }
             coroutineSupport.StartCoroutine(RumblePatternCoroutine(pattern, lowFreqAmplitudes, highFreqAmplitudes, repeat, coroutineSupport, controllerID));
         }
 
@@ -105,48 +96,45 @@ namespace MoreMountains.NiceVibrations
         /// <param name="highFreqAmplitudes"></param>
         /// <param name="repeat"></param>
         /// <returns></returns>
-        private static IEnumerator RumblePatternCoroutine(long[] pattern, int[] lowFreqAmplitudes,
-            int[] highFreqAmplitudes, int repeat, MonoBehaviour coroutineSupport, int controllerID = -1)
+        private static IEnumerator RumblePatternCoroutine(long[] pattern, int[] lowFreqAmplitudes, int[] highFreqAmplitudes, int repeat, MonoBehaviour coroutineSupport, int controllerID = -1)
         {
             float startedAt = Time.unscaledTime;
-            float currentTime = startedAt;
-            int currentIndex = 0;
-            
-            UnityEngine.InputSystem.Gamepad currentGamepad = GetGamepad(controllerID);
-            
-            while (currentIndex < pattern.Length)
+            float duration = 0f;
+            for (int i = 0; i < pattern.Length; i++)
             {
-                if (currentGamepad == null)
+                if (GetGamepad(controllerID) == null)
                 {
                     yield break;
                 }
+                duration = pattern[i];
+                startedAt = Time.unscaledTime;
+                float lowFreqAmplitude = (lowFreqAmplitudes.Length > i) ? lowFreqAmplitudes[i] / 255f : 0f;
+                float highFreqAmplitude = (highFreqAmplitudes.Length > i) ? highFreqAmplitudes[i] / 255f : 0f;
 
-                int count = 0;
-                float totalLowFrequency = 0;
-                float totalHighFrequency = 0;
-
-                do
-                {
-                    float duration = pattern[currentIndex];
-                    float lowFrequencyAmplitude = (lowFreqAmplitudes.Length > currentIndex) ? lowFreqAmplitudes[currentIndex] / 255f : 0f;
-                    totalLowFrequency += lowFrequencyAmplitude;
-                    float highFrequencyAmplitude = (highFreqAmplitudes.Length > currentIndex) ? highFreqAmplitudes[currentIndex] / 255f : 0f;
-                    totalHighFrequency += highFrequencyAmplitude;
-                    currentTime += duration / 1000f;
-                    count++;
-                    currentIndex++;
-                } while (currentTime < Time.unscaledTime && currentIndex < pattern.Length);
-
-                currentGamepad.SetMotorSpeeds(totalLowFrequency / count, totalHighFrequency / count);
-
-                while (currentTime > Time.unscaledTime && currentIndex < pattern.Length)
+                GetGamepad(controllerID).SetMotorSpeeds(lowFreqAmplitude, highFreqAmplitude);
+                while (Time.unscaledTime - startedAt < (duration/1000f))
                 {
                     yield return null;
                 }
             }
-            currentGamepad.SetMotorSpeeds(0f, 0f);
-        }
 
+            InputSystem.ResetHaptics();
+
+            if (repeat == -1)
+            {
+                yield break;
+            }
+            if (repeat > 1)
+            {
+                repeat--;
+                coroutineSupport.StartCoroutine(RumblePatternCoroutine(pattern, lowFreqAmplitudes, highFreqAmplitudes, repeat, coroutineSupport));
+            }
+            if (repeat == 0)
+            {
+                coroutineSupport.StartCoroutine(RumblePatternCoroutine(pattern, lowFreqAmplitudes, highFreqAmplitudes, repeat, coroutineSupport));
+            }
+        }
+        
         /// <summary>
         /// Lets you update rumble values while playing them
         /// </summary>

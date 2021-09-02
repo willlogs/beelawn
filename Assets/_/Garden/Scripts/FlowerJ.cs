@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Jobs;
 using Unity.Collections;
 using UnityEngine.Events;
+using MoreMountains.NiceVibrations;
 
 namespace PT.Garden
 {
@@ -55,6 +56,7 @@ namespace PT.Garden
         }
 
         public void GetDestroyed(){
+            MMVibrationManager.Haptic (HapticTypes.SoftImpact);
             BeforeDestroy?.Invoke();
             Destroy(gameObject, _beforeDestruction);
         }

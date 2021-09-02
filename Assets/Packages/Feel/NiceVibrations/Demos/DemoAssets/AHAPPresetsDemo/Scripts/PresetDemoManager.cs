@@ -39,29 +39,13 @@ namespace MoreMountains.NiceVibrations
         public virtual void PlayAHAP(int index)
         {
             Logo.Shaking = true;
-
-            // for the purpose of the demo, and to be able to observe the difference, if any, on certain devices,
-            // the first 4 effects (dice, drums, game over, heart beats) will be called on the main thread, and the remaining ones on a secondary thread
-            if (index < 5)
-            {
-                MMVibrationManager.AdvancedHapticPattern(DemoItems[index].AHAPFile.text,
+            MMVibrationManager.AdvancedHapticPattern(DemoItems[index].AHAPFile.text, 
                                                      DemoItems[index].WaveFormAsset.WaveForm.Pattern, DemoItems[index].WaveFormAsset.WaveForm.Amplitudes, -1,
                                                      DemoItems[index].RumbleWaveFormAsset.WaveForm.Pattern, DemoItems[index].RumbleWaveFormAsset.WaveForm.LowFrequencyAmplitudes,
                                                      DemoItems[index].RumbleWaveFormAsset.WaveForm.HighFrequencyAmplitudes, -1,
-                                                     HapticTypes.LightImpact, this, -1, false); 
-                DemoItems[index].AssociatedSound.Play();
-                StartCoroutine(ChangeIcon(DemoItems[index].AssociatedSprite));
-            }
-            else
-            {
-                MMVibrationManager.AdvancedHapticPattern(DemoItems[index].AHAPFile.text,
-                                                     DemoItems[index].WaveFormAsset.WaveForm.Pattern, DemoItems[index].WaveFormAsset.WaveForm.Amplitudes, -1,
-                                                     DemoItems[index].RumbleWaveFormAsset.WaveForm.Pattern, DemoItems[index].RumbleWaveFormAsset.WaveForm.LowFrequencyAmplitudes,
-                                                     DemoItems[index].RumbleWaveFormAsset.WaveForm.HighFrequencyAmplitudes, -1,
-                                                     HapticTypes.LightImpact, this, -1, true); 
-                DemoItems[index].AssociatedSound.Play();
-                StartCoroutine(ChangeIcon(DemoItems[index].AssociatedSprite));
-            }            
+                                                     HapticTypes.LightImpact, this);
+            DemoItems[index].AssociatedSound.Play();
+            StartCoroutine(ChangeIcon(DemoItems[index].AssociatedSprite));
         }
         
         // ICON ----------------------------------------------------------------------------------------------
@@ -116,7 +100,6 @@ namespace MoreMountains.NiceVibrations
             MMNViOSCoreHaptics.OnHapticPatternStopped -= OnHapticsStopped;
             MMNViOSCoreHaptics.OnHapticPatternError -= OnHapticsError;
             MMNViOSCoreHaptics.OnHapticPatternReset -= OnHapticsReset;
-            MMNVAndroid.ClearThreads();
         }
     }
 }

@@ -155,26 +155,6 @@ namespace MoreMountains.NiceVibrations
             #endif
         }
 
-
-        /// <summary>
-        /// Computes and stores the current iOS version
-        /// </summary>
-        /// <returns></returns>
-        public static float ComputeiOSVersion()
-        {
-            int version = 0;
-            string versionAsString = "0.0.0";
-#if UNITY_IOS && !UNITY_EDITOR
-                versionAsString = Device.systemVersion;
-#endif
-
-            string[] versionArray = versionAsString.Split('.');
-
-            int.TryParse(versionArray[0], out version);
-
-            return version;
-        }
-
         /// <summary>
 		/// This methods tests the current device generation against a list of devices that don't support haptics, and returns true if haptics are supported, false otherwise.
 		/// </summary>

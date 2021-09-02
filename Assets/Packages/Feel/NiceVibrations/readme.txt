@@ -1,7 +1,7 @@
 A more user friendly doc is available at http://nice-vibrations-docs.moremountains.com/
 Find out more about the asset at http://nice-vibrations.moremountains.com/
 
-Nice Vibrations v3.9
+Nice Vibrations v3.7
 
 ## WHAT'S IN THE ASSET ? 
 -------------------------
@@ -19,15 +19,9 @@ You'll also want to keep that folder.
 
 - OlderVersions contains old releases of Nice Vibrations
 
-## WHAT'S THAT NiceVibrationsAHAPConverters UNITY PACKAGE?
-----------------------------------------------------------
 
-It contains a few classes that will let you convert AHAP haptic files to use them with Android and gamepads. It's usually not put in a separate package, but these classes require the Newtonsoft .dll, which you'll also find in the package. 
-As Unity, on some versions of the editor, has decided to ship that package already installed by default, it was confusing a lot of users. As it's a fairly niche feature, it's now packaged in that .unitypackage.
-If you want to use these features, simply import the package, and it should put things in the right folders for you. Don't hesitate to use the support form (https://feel.moremountains.com/feel-contact) if you run into any issue with this.
-
-## HOW DO I ADD THIS TO MY GAME?
---------------------------------
+## HOW DO I ADD THIS TO MY GAME ?
+------------------------------
 
 You should probably go check out http://nice-vibrations-docs.moremountains.com/, there'll be more details. 
 But basically all you need is to import the asset into your project, and you can instantly call the vibration 
@@ -36,8 +30,8 @@ No need to add anything to your scenes.
 Nice Vibrations comes with universal methods (that will target both iOS and Android in one line, as well as gamepad rumble on PC/Console), 
 or specific ones to get more tailored results on each platform.
 
-## IS THERE DOCUMENTATION SOMEWHERE?
-------------------------------------
+## IS THERE DOCUMENTATION SOMEWHERE ?
+-------------------------------------
 
 There is!
 There's a functional documentation at http://nice-vibrations-docs.moremountains.com/

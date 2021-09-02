@@ -79,10 +79,6 @@ namespace MoreMountains.NiceVibrations
         /// <param name="jsonString"></param>
         public static void PlayCoreHapticsFromJSON(string jsonString, bool threaded = false)
         {
-            if ((jsonString == null) || (jsonString == ""))
-            {
-                return;
-            }
             MMNViOS_PlayCoreHapticsFromJSON(jsonString, threaded);
         }
 
@@ -134,13 +130,10 @@ namespace MoreMountains.NiceVibrations
 
         /// <summary>
         /// This method lets you update the intensity and sharpness of a continuous haptics as it's playing.
-        ///
-        /// On early versions of the Core Haptics API only, this method could end up being confusing,
-        /// as it'd work like so (to mimic Apple's own API implementation) :
-        /// 
+        /// Note that this one is a direct implementation of Apple's native method that serves that same purpose, and
+        /// the way it works can be confusing, as instead of just setting the value, it multiplies and adds like so :
         /// Sending a dynamic parameter for intensity multiplies the original pattern’s event intensity by the dynamic parameter value.
         /// Sending a dynamic parameter for sharpness adds the dynamic parameter value to the original pattern’s event sharpness.
-        /// 
         /// If you'd rather not have to do weird maths to just set two values, you can use
         /// the UpdateContinuousHapticPatternRational method, which will handle that for you.
         /// </summary>
@@ -152,8 +145,7 @@ namespace MoreMountains.NiceVibrations
         }
 
         /// <summary>
-        /// On early versions of the Core Haptics API only,
-        /// this method lets you update the intensity and sharpness of a continuous haptics as it's playing.
+        /// This method lets you update the intensity and sharpness of a continuous haptics as it's playing.
         /// It simply sets the intensity and sharpness values to the ones set in parameters
         /// Just note that due to limitations in Apple's implementation, the intensity can't go higher than its initial value.
         /// The only way to bypass that is to pass a monobehaviour to PlayContinuousHapticPattern when calling it
