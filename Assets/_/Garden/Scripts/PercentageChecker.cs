@@ -81,7 +81,8 @@ namespace PT.Garden{
         }
 
         private void OnDestroy(){
-            sumBuffer.Dispose();
+            if(sumBuffer != null)
+                sumBuffer.Dispose();
         }
     }
 }

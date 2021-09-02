@@ -967,6 +967,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 848286313}
   m_CullTransparentMesh: 1
+--- !u!1 &1014886847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1014886848}
+  m_Layer: 0
+  m_Name: uv11
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1014886848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014886847}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.98, y: 0, z: -4.91}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8731379783216428835}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1073386610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1997,6 +2027,36 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 5f0cb800c0865104ea99ad8b01abb0dd, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7fd0f034fb608643a24ead27702c3a3, type: 3}
+--- !u!1 &2140003031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2140003032}
+  m_Layer: 0
+  m_Name: uv00
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2140003032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2140003031}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8731379783216428835}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &3592626314491236808
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2022,8 +2082,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70fa43bc03358e4991d1a3c0c345226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  computeShader: {fileID: 7200000, guid: 74952acd2d4b47f47b29f7207372b9ea, type: 3}
+  grassParticle: {fileID: 9216090784844461220, guid: 1d03a88ee1b71db48a549749a975eeb6, type: 3}
+  uv00: {fileID: 2140003032}
+  uv11: {fileID: 1014886848}
   _removeCanvas: {fileID: 8731379783216428837}
   _windCanvas: {fileID: 8731379781747207652}
+  _mr: {fileID: 8731379783216428833}
+  renderTexture: {fileID: 0}
+  lastRenderTexture: {fileID: 0}
+  grassTexture: {fileID: 0}
 --- !u!114 &8731379781747207652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2262,6 +2330,8 @@ Transform:
   m_LocalScale: {x: 2.1262474, y: 2.1262474, z: 2.1262474}
   m_Children:
   - {fileID: 8731379781747207656}
+  - {fileID: 2140003032}
+  - {fileID: 1014886848}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}

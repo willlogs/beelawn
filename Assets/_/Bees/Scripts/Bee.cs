@@ -55,7 +55,7 @@ namespace PT.Bees
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_follow)
             {
