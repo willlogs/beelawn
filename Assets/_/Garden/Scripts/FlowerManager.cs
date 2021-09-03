@@ -39,42 +39,38 @@ namespace PT.Garden
         {
             if (_hasTarget)
             {
-                // set data
-                results = new FlowerJ.Data[_flowers.Count];
-                for (int i = 0; i < _flowers.Count; i++)
-                {
-                    results[i].mp = _flowers[i].transform.position;
-                }
-                float[] pos = { targetT.position.x, targetT.position.y, targetT.position.z };
-                _cs.SetFloats("tp", pos);
-                _cs.SetFloat("desMag", _desMag);
-                _cs.SetBuffer(0, "myData", _cb);
-                _cb.SetData(results);
+                // // set data
+                // results = new FlowerJ.Data[_flowers.Count];
+                // for (int i = 0; i < _flowers.Count; i++)
+                // {
+                //     results[i].mp = _flowers[i].transform.position;
+                // }
+                // float[] pos = { targetT.position.x, targetT.position.y, targetT.position.z };
+                // _cs.SetFloats("tp", pos);
+                // _cs.SetFloat("desMag", _desMag);
+                // _cs.SetBuffer(0, "myData", _cb);
+                // _cb.SetData(results);
 
-                // dispatch
-                int count = _flowers.Count / 4;
-                count = count > 1 ? count : 1;
-                _cs.Dispatch(0, count, count, 1);
-                _cb.GetData(results);
+                // // dispatch
+                // int count = _flowers.Count / 4;
+                // count = count > 1 ? count : 1;
+                // _cs.Dispatch(0, count, count, 1);
+                // _cb.GetData(results);
                 
                 // process results
                 for (int i = _flowers.Count - 1; i >= 0; i--)
                 {
-                    if (results[i].shoudlRot > 0)
+                    Vector3 dis = _flowers[i].transform.position - targetT.position;
+                    if (dis.magnitude < 10)
                     {
-                        float3x3 rot = results[i].rot;
-                        Matrix4x4 mrot = new Matrix4x4(
-                            new Vector4(rot.c0.x, rot.c0.y, rot.c0.z, 1),
-                            new Vector4(rot.c1.x, rot.c1.y, rot.c1.z, 1),
-                            new Vector4(rot.c2.x, rot.c2.y, rot.c2.z, 1),
-                            new Vector4(1, 1, 1, 1)
+                        Vector3 axis = Vector3.Cross(dis.normalized, Vector3.up);
+                        _flowers[i].transform.rotation = Quaternion.AngleAxis(
+                            (10 - dis.magnitude) / 10 * -30,
+                            axis
                         );
-
-                        Vector3 up = mrot * Vector3.up;
-                        _flowers[i].transform.up = up;
                     }
 
-                    if (results[i].shoudlDie > 0)
+                    if (dis.magnitude < _desMag)
                     {
                         bool d = false;
                         d = _mainBee._chain.CatchHoney(_honey, _multiplier);
