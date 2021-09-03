@@ -187,7 +187,11 @@ namespace PT.Bees
                 if(diff.magnitude > _movementThreshold){
                     diff = diff.normalized * _movementThreshold;
                 }
-                _jStick.transform.position = goal + diff;
+                _jStick.transform.position = Vector3.Lerp(
+                    _jStick.transform.position,
+                    goal + diff,
+                    Time.fixedDeltaTime * 10
+                );
             }
             else
             {
