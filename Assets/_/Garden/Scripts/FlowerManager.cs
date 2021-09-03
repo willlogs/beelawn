@@ -35,7 +35,7 @@ namespace PT.Garden
             _cb = new ComputeBuffer(_flowers.Count, stride);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_hasTarget)
             {
