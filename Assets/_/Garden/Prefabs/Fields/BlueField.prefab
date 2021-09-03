@@ -3130,11 +3130,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   percentage: 0
+  _cs: {fileID: 0}
   _refree: {r: 0, g: 0, b: 0, a: 0}
   _meshRenderer: {fileID: 7698479549641965436}
   _matIndex: 0
   _mainTexName: _NoGrassTex
   _betweenReads: 0.5
+  _run: 0
+  kernelindex: 0
+  _filledSlider: {fileID: 0}
 --- !u!65 &2459523276009396629
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3160,8 +3164,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70fa43bc03358e4991d1a3c0c345226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  computeShader: {fileID: 0}
+  grassParticle: {fileID: 0}
+  uv00: {fileID: 0}
+  uv11: {fileID: 0}
   _removeCanvas: {fileID: 7698479549641965432}
   _windCanvas: {fileID: 7698479550005585337}
+  _mr: {fileID: 0}
+  renderTexture: {fileID: 0}
+  lastRenderTexture: {fileID: 0}
+  grassTexture: {fileID: 0}
 --- !u!1 &7698479550005585336
 GameObject:
   m_ObjectHideFlags: 0
@@ -3452,6 +3464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetT: {fileID: 0}
+  _cs: {fileID: 7200000, guid: c3a7f6aafe1a8be459eeab189f4505a5, type: 3}
   _radius: 0.5
   _flowers: []
   _hasTarget: 0

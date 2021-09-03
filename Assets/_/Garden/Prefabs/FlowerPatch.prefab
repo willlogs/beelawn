@@ -990,6 +990,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetT: {fileID: 0}
+  _cs: {fileID: 7200000, guid: c3a7f6aafe1a8be459eeab189f4505a5, type: 3}
   _radius: 0.5
   _flowers: []
   _hasTarget: 0
@@ -997,6 +998,7 @@ MonoBehaviour:
   _mainBee: {fileID: 0}
   _flowerID: 
   _color: {r: 0.96632445, g: 1, b: 0, a: 1}
+  _multiplier: 1
 --- !u!65 &523826003886909364
 BoxCollider:
   m_ObjectHideFlags: 0
