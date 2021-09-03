@@ -52,7 +52,7 @@ namespace PT.Garden
                 _cb.SetData(results);
 
                 // dispatch
-                int count = _flowers.Count / 8;
+                int count = _flowers.Count / 4;
                 count = count > 1 ? count : 1;
                 _cs.Dispatch(0, count, count, 1);
                 _cb.GetData(results);

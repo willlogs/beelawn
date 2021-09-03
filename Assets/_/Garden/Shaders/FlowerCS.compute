@@ -16,7 +16,7 @@ float2 GetUV (uint3 id) {
 	return (id.xy + 0.5) * 8 - 1.0;
 }
 
-[numthreads(8,8,1)]
+[numthreads(4,4,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
     int index = id.x * 8 + id.y;
