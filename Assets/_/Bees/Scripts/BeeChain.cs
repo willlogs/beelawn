@@ -43,7 +43,7 @@ namespace PT.Bees
         public bool isActive = false;
         public Vector3 center;
         public Vector3 goal;
-        public float radius = 2, speed = 5f, capacity = 100;
+        public float radius = 2, speed = 5f, capacity = 100, sensivity = 5, mgoal = 5;
         public Utils.MultiColorSlider _multiColorSlider;
         public Dictionary<string, Honey> honeys = new Dictionary<string, Honey>();
 
@@ -160,6 +160,7 @@ namespace PT.Bees
             if (_hasLastGoal)
             {
                 Vector3 diff = goal - _lastGoal;
+                diff *= sensivity;
 
                 if (diff.magnitude < _movementThreshold)
                 {
@@ -176,13 +177,12 @@ namespace PT.Bees
 
                 if (_bees.Length > 0)
                 {
+                    _masterBeeRB.velocity = Vector3.Lerp(_masterBeeRB.velocity, diff * speed, Time.fixedDeltaTime * mgoal);
                     _bees[0].transform.forward = Vector3.Lerp(
                         _bees[0].transform.forward,
-                        diff.normalized,
+                        _masterBeeRB.velocity.normalized,
                         Time.fixedDeltaTime * 10
                     );
-
-                    _masterBeeRB.velocity = Vector3.Lerp(_masterBeeRB.velocity, diff * speed, Time.fixedDeltaTime * 10);
                 }
 
                 _lastDiff = diff;

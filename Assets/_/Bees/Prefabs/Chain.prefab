@@ -56,8 +56,10 @@ MonoBehaviour:
   center: {x: 0, y: 0, z: 0}
   goal: {x: 0, y: 0, z: 0}
   radius: 2
-  speed: 15
+  speed: 25
   capacity: 1000
+  sensivity: 5
+  mgoal: 5
   _multiColorSlider: {fileID: 0}
   _bees:
   - {fileID: 8911718173642980240}
@@ -70,7 +72,7 @@ MonoBehaviour:
   - {fileID: 2416522743409107371}
   - {fileID: 4753293018507357606}
   _masterBeeRB: {fileID: 5016643584858883758}
-  _movementThreshold: 5
+  _movementThreshold: 11
 --- !u!1001 &1619502334791096686
 PrefabInstance:
   m_ObjectHideFlags: 0

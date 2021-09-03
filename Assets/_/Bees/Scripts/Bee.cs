@@ -55,24 +55,27 @@ namespace PT.Bees
             }
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             if (_follow)
             {
                 // --------------------- doing a random local move --------------------- //
-                Vector3 random = new Vector3(
-                    Random.Range(-1f, 1f),
-                    0,
-                    Random.Range(-1f, 1f)
-                ).normalized;
+                if (!isMain)
+                {
+                    Vector3 random = new Vector3(
+                        Random.Range(-1f, 1f),
+                        0,
+                        Random.Range(-1f, 1f)
+                    ).normalized;
 
-                _randomDir = (1 - _randomFactor) * _randomDir + _randomFactor * random;
+                    _randomDir = (1 - _randomFactor) * _randomDir + _randomFactor * random;
 
-                _beeBodyT.position = Vector3.Lerp(
-                    _beeBodyT.position,
-                    _beeBodyT.position + _randomDir,
-                    Time.deltaTime
-                );
+                    _beeBodyT.position = Vector3.Lerp(
+                        _beeBodyT.position,
+                        _beeBodyT.position + _randomDir,
+                        Time.deltaTime
+                    );
+                }
                 // --------------------- doing a random local move --------------------- //
 
                 // --------------------- follow the parent --------------------- //
