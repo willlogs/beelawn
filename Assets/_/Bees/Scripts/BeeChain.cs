@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PT.Bees
 {
@@ -50,6 +51,7 @@ namespace PT.Bees
         [SerializeField] private Bee[] _bees;
         [SerializeField] private Rigidbody _masterBeeRB;
         [SerializeField] private float _movementThreshold = 0.005f;
+        [SerializeField] private Image _jBase, _jStick;
         private bool _isActive = true;
         private Vector3 _lastGoal = Vector3.zero, _lastDiff;
         private bool _hasLastGoal, _hasSlider;
@@ -127,6 +129,9 @@ namespace PT.Bees
         {
             Follow(_isActive);
             _hasSlider = _multiColorSlider != null;
+
+            _jBase.enabled = false;
+            _jStick.enabled = false;
         }
 
         private void FixedUpdate()
@@ -139,6 +144,9 @@ namespace PT.Bees
             {
                 isActive = false;
                 _hasLastGoal = false;
+
+                _jBase.enabled = false;
+                _jStick.enabled = false;
             }
 
             if (isActive != _isActive)
@@ -156,42 +164,42 @@ namespace PT.Bees
 
         private void OnInput()
         {
-            goal = Input.mousePosition;
             if (_hasLastGoal)
             {
-                Vector3 diff = goal - _lastGoal;
-                diff *= sensivity;
+                Vector3 newG = Input.mousePosition;
+                Vector3 diff = newG - goal;                
 
-                if (diff.magnitude < _movementThreshold)
-                {
-                    diff = _lastDiff;
-                }
-                else
-                {
-                    diff.z = diff.y;
-                    diff.y = 0;
-                }
-
-                diff = diff.normalized;
-                isActive = true;
+                Vector3 wdiff = diff.normalized;
+                wdiff.z = wdiff.y;
+                wdiff.y = 0;
 
                 if (_bees.Length > 0)
                 {
-                    _masterBeeRB.velocity = Vector3.Lerp(_masterBeeRB.velocity, diff * speed, Time.fixedDeltaTime * mgoal);
+                    _masterBeeRB.velocity = Vector3.Lerp(_masterBeeRB.velocity, wdiff * speed, Time.fixedDeltaTime * mgoal);
                     _bees[0].transform.forward = Vector3.Lerp(
                         _bees[0].transform.forward,
                         _masterBeeRB.velocity.normalized,
                         Time.fixedDeltaTime * 10
                     );
                 }
+                isActive = true;
 
-                _lastDiff = diff;
+                if(diff.magnitude > _movementThreshold){
+                    diff = diff.normalized * _movementThreshold;
+                }
+                _jStick.transform.position = goal + diff;
             }
             else
             {
+                goal = Input.mousePosition;
+
                 _hasLastGoal = true;
+                _jBase.enabled = true;
+                _jStick.enabled = true;
+
+                _jBase.transform.position = goal;
+                _jStick.transform.position = goal;
             }
-            _lastGoal = goal;
         }
 
         private void Follow(bool f)
