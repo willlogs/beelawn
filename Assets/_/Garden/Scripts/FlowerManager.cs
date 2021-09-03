@@ -15,7 +15,7 @@ namespace PT.Garden
         [SerializeField] private float _radius = 0.5f;
         [SerializeField] private List<FlowerJ> _flowers;
         [SerializeField] private bool _hasTarget = false;
-        [SerializeField] private float _desMag = 2.5f, _bendRadiuss = 2;
+        [SerializeField] private float _desMag = 2.5f, _bendRadiusss = 4;
         [SerializeField] private Bees.Bee _mainBee;
         [SerializeField] private string _flowerID;
         [SerializeField] private Color _color;
@@ -61,11 +61,11 @@ namespace PT.Garden
                 for (int i = _flowers.Count - 1; i >= 0; i--)
                 {
                     Vector3 dis = _flowers[i].transform.position - targetT.position;
-                    if (dis.magnitude < _bendRadiuss)
+                    if (dis.magnitude < _bendRadiusss)
                     {
                         Vector3 axis = Vector3.Cross(dis.normalized, Vector3.up);
                         _flowers[i].transform.rotation = Quaternion.AngleAxis(
-                            (_bendRadiuss - dis.magnitude) / _bendRadiuss * -30,
+                            (_bendRadiusss - dis.magnitude) / _bendRadiusss * -30,
                             axis
                         );
                     }
