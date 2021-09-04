@@ -52,6 +52,7 @@ namespace PT.Bees
         [SerializeField] private Rigidbody _masterBeeRB;
         [SerializeField] private float _movementThreshold = 0.005f;
         [SerializeField] private Image _jBase, _jStick;
+        [SerializeField] private GameObject _txtObj;
         private bool _isActive = true;
         private Vector3 _lastGoal = Vector3.zero, _lastDiff;
         private bool _hasLastGoal, _hasSlider;
@@ -78,10 +79,13 @@ namespace PT.Bees
 
                 UpdateSlider();
 
+                _txtObj.SetActive(false);
                 return true;
             }
-
-            return false;
+            else{
+                _txtObj.SetActive(true);
+                return false;
+            }
         }
 
         public Honey[] GetHoneys()
@@ -94,6 +98,7 @@ namespace PT.Bees
                 _multiColorSlider.ResetValues();
 
             honeys = new Dictionary<string, Honey>();
+            _txtObj.SetActive(false);
             return h;
         }
 
@@ -132,6 +137,7 @@ namespace PT.Bees
 
             _jBase.enabled = false;
             _jStick.enabled = false;
+            _txtObj.SetActive(false);
         }
 
         private void FixedUpdate()

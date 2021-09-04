@@ -15,6 +15,7 @@ namespace PT.Garden
         [SerializeField] private LiquidVolumeAnimator[] _jars;
         [SerializeField] private int nextFreeJarIdx = 0;
         [SerializeField] private TMPro.TextMeshProUGUI _text;
+        [SerializeField] private GameObject _sellButton;
 
         public void SellHoney(){
             if(_honeyAmount > 0){
@@ -41,6 +42,21 @@ namespace PT.Garden
                     }
                     _text.text = _honeyAmount + "";
                     UpdateJars();
+
+                    if(_honeyAmount > 0){
+                        _sellButton.SetActive(true);
+                    }
+                }
+            }
+        }
+
+        private void OnTriggerExit(Collider other){
+            Bee b = other.GetComponent<Bee>();
+            if (b != null)
+            {
+                if (b.isMain)
+                {
+                    _sellButton.SetActive(false);
                 }
             }
         }
@@ -78,6 +94,10 @@ namespace PT.Garden
                 _jars[h.jarIndex].mats[0].SetColor("_EmissionColor", h.color);
                 _jars[h.jarIndex].mats[0].SetColor("_SEmissionColor", h.color);
             }
+        }
+
+        private void Start(){
+            _sellButton.SetActive(false);
         }
     }
 }
