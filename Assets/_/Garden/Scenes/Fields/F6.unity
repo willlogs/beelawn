@@ -446,7 +446,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360694201}
   m_LocalRotation: {x: 0.3173548, y: -0, z: -0, w: 0.94830686}
-  m_LocalPosition: {x: -34.718998, y: 30.56, z: -40.236}
+  m_LocalPosition: {x: -34.718998, y: 35.1, z: -45.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1289,7 +1289,7 @@ Transform:
   m_GameObject: {fileID: 1073386610}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -38.7, y: 18.67, z: -15.8}
-  m_LocalScale: {x: 13.007, y: 1, z: 14.027749}
+  m_LocalScale: {x: 26.386, y: 1, z: 29.232426}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
@@ -1844,6 +1844,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 252022025410915038, guid: 6aea4603dda665a4aa3695e74a769ca4, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 931309617436780245, guid: 6aea4603dda665a4aa3695e74a769ca4, type: 3}
       propertyPath: _bendBrush.brushScale
       value: 0.2
@@ -9512,6 +9516,7 @@ MonoBehaviour:
   _flowers: []
   _hasTarget: 0
   _desMag: 3
+  _bendRadiusss: 4
   _mainBee: {fileID: 0}
   _flowerID: 
   _color: {r: 1, g: 0, b: 0.8506589, a: 1}
