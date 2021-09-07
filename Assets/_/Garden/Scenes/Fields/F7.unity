@@ -4885,5 +4885,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1693088577243061567, guid: f8dbe5feaee1273459b5643b6990eb1f, type: 3}
+      propertyPath: _desMag
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8dbe5feaee1273459b5643b6990eb1f, type: 3}
